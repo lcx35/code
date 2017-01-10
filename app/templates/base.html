@@ -127,11 +127,11 @@
                         <li>
                             <a href="/log"><i class="fa fa-dashboard fa-fw"></i> 操作日志</a>
                         </li>
-                    
+                    {% if current_user.username == "admin" %}
                         <li>
                             <a href="/user"><i class="fa fa-dashboard fa-fw"></i> 用户</a>
                         </li>
-
+			{% endif %}
                         <li>
                             <a href="/domain"><i class="fa fa-dashboard fa-fw"></i> 域名</a>
                         </li>

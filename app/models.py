@@ -33,7 +33,7 @@ class User():
     @staticmethod
     def find(number,page):
         u = number*(page-1)
-        b = number*page-1
+        b = number*page
         users = db.user.find().skip(u).limit(b)
         return users
 
@@ -44,8 +44,9 @@ class User():
         return _id
 
     @staticmethod
-    def update(username):
-        _id = db.user.update({ 'name': username })
+    def update(username, password):
+        password_hash = generate_password_hash(password)
+        _id = db.user.update({ 'name': username }, { '$set' : { 'password': password_hash }})
         return _id
 
     @staticmethod
