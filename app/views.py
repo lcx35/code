@@ -2,8 +2,8 @@
 from app import app, lm
 from flask import request, redirect, render_template, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
-from .forms import UserForm, UseraddForm
-from .models import User
+from .forms import UserForm, UseraddForm, DomainaddForm
+from .models import User, Domain
 
 @lm.user_loader
 def load_user(username):
@@ -96,9 +96,13 @@ def user_settings():
     name = request.args.get('u')
     if name == None:
         name = ""
+        master = ""
+    else:
+        master = User.find_one(name)['master']
     if request.method == 'POST':
         if form.validate_on_submit():
             username = form.username.data
+            master = form.master.data
             password = form.password.data
             user = User(username)
             if not User.find_one(username):
@@ -112,7 +116,7 @@ def user_settings():
                 flash(u"更新失败", category='error')
         else:
             flash(u"不能为空", category='error')
-    return render_template('user_settings.html', title='settings', form=form, name=name)
+    return render_template('user_settings.html', title='settings', form=form, name=name, master=master)
 
 @app.route('/log', methods=['GET', 'POST'])
 @login_required
@@ -122,17 +126,88 @@ def log():
 @app.route('/domain', methods=['GET', 'POST'])
 @login_required
 def domain():
-    return render_template('domain.html')
+    if current_user.username != "admin":
+        flash("Permission denied", category='error')
+        return redirect(request.args.get("next") or url_for("login"))
+    page = request.args.get('p')
+    if page == None:
+        page = 1
+    domains = Domain.find(10, page)
+    return render_template('domain.html', title=u'域名', domains=domains)
 
 @app.route('/domain/add', methods=['GET', 'POST'])
 @login_required
 def domain_add():
-    return render_template('domain_add.html')
+    if current_user.username != "admin":
+        flash("Permission denied", category='error')
+        return redirect(request.args.get("next") or url_for("login"))
+    form = DomainaddForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            domain = form.domain.data
+            ip = form.ip.data
+            directory = form.directory.data
+            c_version = form.c_version.data
+            n_version = form.n_version.data
+            user = form.user.data
+            password = form.password.data
+            domain_obj = Domain(domain)
+            if Domain.find_one(domain):
+                flash("The domain is repetitive", category='error')
+                return redirect(request.args.get("next") or url_for("domain_add"))
+            try:
+                domain_obj.save(domain, ip, directory, c_version, n_version, user, password)
+                flash("add domian successfully!", category='success')
+                return redirect(request.args.get("next") or url_for("domain"))
+            except:
+                flash("domain add failed", category='error')
+        else:
+            flash(u"不能为空", category='error')
+    return render_template('domain_add.html', title=u'添加域名', form=form)
+
+@app.route('/domain/add', methods=['GET', 'POST'])
+@login_required
+def domain_edit():
+    if current_user.username != "admin":
+        flash("Permission denied", category='error')
+        return redirect(request.args.get("next") or url_for("login"))
+    form = DomainaddForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            domain = form.domain.data
+            ip = form.ip.data
+            directory = form.directory.data
+            c_version = form.c_version.data
+            n_version = form.n_version.data
+            user = form.user.data
+            password = form.password.data
+            domain_obj = Domain(domain)
+            if Domain.find_one(domain):
+                flash("The domain is repetitive", category='error')
+                return redirect(request.args.get("next") or url_for("domain_add"))
+            try:
+                domain_obj.save(domain, ip, directory, c_version, n_version, user, password)
+                flash("add domian successfully!", category='success')
+                return redirect(request.args.get("next") or url_for("domain"))
+            except:
+                flash("domain add failed", category='error')
+        else:
+            flash(u"不能为空", category='error')
+    return render_template('domain_add.html', title=u'添加域名', form=form)
 
 @app.route('/domain/del', methods=['GET', 'POST'])
 @login_required
 def domain_del():
-    return render_template('log.html')
-
+    if current_user.username != "admin":
+        flash("Permission denied", category='error')
+        return redirect(request.args.get("next") or url_for("login"))
+    domain = request.args.get('d')
+    try:
+        Domain.remove(domain)
+        flash("user delete successfully!", category='success')
+        return redirect(request.args.get("next") or url_for("domain"))
+    except:
+        flash("Users delete failed", category='error')
+        return redirect(request.args.get("next") or url_for("domain"))
 
 

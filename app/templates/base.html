@@ -94,7 +94,7 @@
                         {{ current_user.username }} <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="/user/settings"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="/user/settings?u={{ current_user.username }}"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -129,11 +129,11 @@
                         </li>
                     {% if current_user.username == "admin" %}
                         <li>
-                            <a href="/user"><i class="fa fa-dashboard fa-fw"></i> 用户</a>
+                            <a href="/user"><i class="fa fa-user fa-fw"></i> 用户</a>
                         </li>
 			{% endif %}
                         <li>
-                            <a href="/domain"><i class="fa fa-dashboard fa-fw"></i> 域名</a>
+                            <a href="/domain"><i class="fa fa-globe fa-fw"></i> 域名</a>
                         </li>
 
                     </ul>
