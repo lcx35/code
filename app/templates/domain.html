@@ -34,9 +34,10 @@
                                             <td>{{ domain.c_version }}</td>
                                             <td>{{ domain.n_version }}</td>
                                             <td>
-						<a class="fa fa-edit fa-fw" href="/domain/add?d={{ domain.domain }}"></a>
-						<a class="fa fa-upload fa-fw" href="/domain/deploy?d={{ domain.domain }}"></a>
-						<a class="fa fa-trash-o fa-fw" href="/domain/del?d={{ domain.domain }}"></a>
+						<a title="查看|编辑" class="fa fa-edit fa-fw" href="/domain/add?d={{ domain.domain }}"></a>
+						<a title="部署" class="fa fa-upload fa-fw" href="/domain/deploy?d={{ domain.domain }}"></a>
+						<a title="回滚" class="fa fa-arrow-left fa-fw" href="/domain/rollback?d={{ domain.domain }}"></a>
+						<a title="删除" class="fa fa-trash-o fa-fw" href="/domain/del?d={{ domain.domain }}"></a>
 					    </td>
                                         </tr>
 				{% endfor %}
