@@ -2,7 +2,8 @@
 from app import app, lm
 from flask import request, redirect, render_template, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
-from .forms import UserForm, UseraddForm, DomainaddForm
+import subprocess32, shlex
+from .forms import UserForm, UseraddForm, DomainaddForm, DomaindeployForm
 from .models import User, Domain
 
 @lm.user_loader
@@ -210,4 +211,41 @@ def domain_del():
         flash("Users delete failed", category='error')
         return redirect(request.args.get("next") or url_for("domain"))
 
+
+@app.route('/domain/deploy', methods=['GET', 'POST'])
+@login_required
+def domain_deploy():
+    form = DomaindeployForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            action = form.action.data
+            if action == 1:
+                domain = form.domain.data
+                n_version = Domain.find_one(domain)['n_version']
+                version = form.version.data
+                if version >= n_version:
+                    return u'版本号错误'
+                cmd = "cd && git checkout -b version && git checkout version && rsync "
+                child = subprocess32.Popen(shlex.split(cmd), shell=False)
+                child.wait()
+                returncode = child.returncode
+                if returncode == 0:
+                    Domain.update()
+                    return u"成功"
+                else:
+                    return u"失败"
+            elif action == 0:
+                domain = form.domain.data
+                n_version = Domain.find_one(domain)['n_version']
+                cmd = "git checkout -b version && git checkout version && rsync "
+                child = subprocess32.Popen(shlex.split(cmd), shell=False)
+                child.wait()
+                returncode = child.returncode
+                if returncode == 0:
+                    Domain.update()
+                    return u"成功"
+                else:
+                    return u"失败"
+            else:
+                return u"fuck you"
 

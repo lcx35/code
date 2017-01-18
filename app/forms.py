@@ -20,8 +20,14 @@ class DomainaddForm(FlaskForm):
     domain = StringField('Domain', validators=[DataRequired()])
     ip = StringField('IP', validators=[DataRequired()])
     directory = StringField('Directory', validators=[DataRequired()])
-    c_version = StringField('Version', validators=[DataRequired()])
-    n_version = StringField('Version', validators=[DataRequired()])
+    c_version = StringField('c_version', validators=[DataRequired()])
+    n_version = StringField('n_version', validators=[DataRequired()])
     user = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
+
+class DomaindeployForm(FlaskForm):
+
+    domain = StringField('Domain', validators=[DataRequired()])
+    action = StringField('Action', validators=[DataRequired()])    
+    version = StringField('Version')
 

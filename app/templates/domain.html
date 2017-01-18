@@ -35,8 +35,8 @@
                                             <td>{{ domain.n_version }}</td>
                                             <td>
 						<a title="查看|编辑" class="fa fa-edit fa-fw" href="/domain/add?d={{ domain.domain }}"></a>
-						<a title="部署" class="fa fa-upload fa-fw" href="/domain/deploy?d={{ domain.domain }}"></a>
-						<a title="回滚" class="fa fa-arrow-left fa-fw" href="/domain/rollback?d={{ domain.domain }}"></a>
+						<button title="部署" class="fa fa-upload fa-fw" onclick="post('/domain/deploy',{domain :{{ domain.domain }},action:0})"></button>
+						<button title="回滚" class="fa fa-arrow-left fa-fw" onclick="myFunction('domain/deploy','Builder')"></button>
 						<a title="删除" class="fa fa-trash-o fa-fw" href="/domain/del?d={{ domain.domain }}"></a>
 					    </td>
                                         </tr>
