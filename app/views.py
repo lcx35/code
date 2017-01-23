@@ -13,8 +13,8 @@ def load_user(username):
 
 @app.route('/test')
 def test():
-    users = User.find(10, 1)
-    return render_template('test.html', users=users)
+    config = app.config['SECRET_KEY']
+    return render_template('test.html', users=config)
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -46,8 +46,10 @@ def user():
     page = request.args.get('p')
     if page == None:
         page = 1
-    users = User.find(10, page)
-    return render_template('user.html', title='user', users=users)
+    else:
+        page = int(page)
+    users, count = User.find(10, page)
+    return render_template('user.html', title='user', users=users, page=page, count=count)
 
 @app.route('/user/add', methods=['GET', 'POST'])
 @login_required
@@ -127,9 +129,9 @@ def log():
 @app.route('/domain', methods=['GET', 'POST'])
 @login_required
 def domain():
-    if current_user.username != "admin":
-        flash("Permission denied", category='error')
-        return redirect(request.args.get("next") or url_for("login"))
+    #if current_user.username != "admin":
+    #    flash("Permission denied", category='error')
+    #    return redirect(request.args.get("next") or url_for("login"))
     page = request.args.get('p')
     if page == None:
         page = 1

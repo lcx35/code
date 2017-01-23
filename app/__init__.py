@@ -4,10 +4,18 @@ from pymongo import MongoClient
 #from config import *
 
 app = Flask(__name__)
-app.config.from_object('config')
-uri = 'mongodb://codeadmin:codeadmin@127.0.0.1/?authSource=admin'
-#db = MongoClient(app.config['DATABASE_URI'])
-db = MongoClient(uri).codeadmin
+
+app.config['DEBUG'] = True
+app.config['TESTING'] = False
+app.config['WTF_CSRF_ENABLED'] = True
+app.config['SECRET_KEY'] = 'code admin'
+
+#app.config.from_object('config')
+app.config['DATABASE_URI'] = 'mongodb://codeadmin:codeadmin@123.206.14.167/?authSource=admin'
+
+#uri = 'mongodb://codeadmin:codeadmin@123.206.14.167/?authSource=admin'
+db = MongoClient(app.config['DATABASE_URI']).codeadmin
+#db = MongoClient(uri).codeadmin
 
 lm = LoginManager()
 lm.init_app(app)

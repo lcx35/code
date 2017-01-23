@@ -18,4 +18,6 @@ DEBUG = True
 TESTING = False
 WTF_CSRF_ENABLED = True
 SECRET_KEY = 'code admin'
-DATABASE_URI = 'mongodb://codeadmin:codeadmin@127.0.0.1:27017/codeadmin?authMechanism=SCRAM-SHA-1'
+#DATABASE_URI = 'mongodb://codeadmin:codeadmin@123.206.14.167:27017/codeadmin?authMechanism=SCRAM-SHA-1'
+
+#app.config['DATABASW_URI'] = 'mongodb://codeadmin:codeadmin@123.206.14.167/?authSource=admin'

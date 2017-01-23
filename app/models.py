@@ -30,11 +30,17 @@ class User():
         return user
 
     @staticmethod
-    def find(number,page):
-        u = number*(page-1)
-        b = number*page
-        users = db.user.find().skip(u).limit(b)
-        return users
+    def find(number, page):
+        u = number*(page - 1)
+#        b = number*page
+        users = db.user.find().skip(u).limit(number)
+	count = db.user.find().count()
+	remainder = count % number
+	if remainder == 0:
+		count = count // number
+	else:
+		count = count // number + 1
+        return users, count
 
     @staticmethod
     def save(username, master, password):
