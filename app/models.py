@@ -92,8 +92,8 @@ class Domain():
         return _id
 
     @staticmethod
-    def update(domain, ip, directory, c_version, n_version, user, password):
-        _id = db.domain.update({ 'domain': domain }, { '$set': { 'ip': ip, 'directory': directory,'c_version': c_version, 'n_version': n_version, 'user': user, 'password': password } })
+    def update(domain, ip, test_directory, directory, c_version, n_version, user, password):
+        _id = db.domain.update({ 'domain': domain }, { '$set': { 'ip': ip, 'test_directory': test_directory, 'directory': directory,'c_version': c_version, 'n_version': n_version, 'user': user, 'password': password } })
         return _id
 
     @staticmethod

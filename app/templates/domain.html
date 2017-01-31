@@ -34,9 +34,9 @@
                                             <td>{{ domain.c_version }}</td>
                                             <td>{{ domain.n_version }}</td>
                                             <td>
-						<a title="查看|编辑" class="fa fa-edit fa-fw" href="/domain/add?d={{ domain.domain }}"></a>
-						<a title="部署" class="fa fa-upload fa-fw" onclick="post('/domain/deploy',{domain :{{ domain.domain }},action:0})"></a>
-						<a title="回滚" class="fa fa-arrow-left fa-fw" onclick="myFunction('domain/deploy','Builder')"></a>
+						<a title="查看|编辑" class="fa fa-edit fa-fw" href="/domain/edit?d={{ domain.domain }}"></a>
+						<a title="部署" class="fa fa-upload fa-fw" href="javascript:void(0);" onclick="post('/domain/deploy',{domain :{{ domain.domain }},action:0})"></a>
+						<a title="回滚" class="fa fa-arrow-left fa-fw" href="javascript:void(0);" onclick="post('domain/deploy',{domain :{{ domain.domain }}})"></a>
 						<a title="删除" class="fa fa-trash-o fa-fw" href="/domain/del?d={{ domain.domain }}"></a>
 					    </td>
                                         </tr>

@@ -135,6 +135,8 @@ def domain():
     page = request.args.get('p')
     if page == None:
         page = 1
+    else:
+        page = int(page)
     domains = Domain.find(10, page)
     return render_template('domain.html', title=u'域名', domains=domains)
 
@@ -149,6 +151,7 @@ def domain_add():
         if form.validate_on_submit():
             domain = form.domain.data
             ip = form.ip.data
+            test_directory = form.test_directory.data
             directory = form.directory.data
             c_version = form.c_version.data
             n_version = form.n_version.data
@@ -159,7 +162,7 @@ def domain_add():
                 flash("The domain is repetitive", category='error')
                 return redirect(request.args.get("next") or url_for("domain_add"))
             try:
-                domain_obj.save(domain, ip, directory, c_version, n_version, user, password)
+                domain_obj.save(domain, ip, test_directory, directory, c_version, n_version, user, password)
                 flash("add domian successfully!", category='success')
                 return redirect(request.args.get("next") or url_for("domain"))
             except:
@@ -168,17 +171,23 @@ def domain_add():
             flash(u"不能为空", category='error')
     return render_template('domain_add.html', title=u'添加域名', form=form)
 
-@app.route('/domain/add', methods=['GET', 'POST'])
+@app.route('/domain/edit', methods=['GET', 'POST'])
 @login_required
 def domain_edit():
     if current_user.username != "admin":
         flash("Permission denied", category='error')
         return redirect(request.args.get("next") or url_for("login"))
     form = DomainaddForm()
+    domain = request.args.get('d')
+    if domain == None:
+        domain_dic = {}
+    else:
+        domain_dic = Domain.find_one(domain)
     if request.method == 'POST':
         if form.validate_on_submit():
             domain = form.domain.data
             ip = form.ip.data
+            test_directory = form.test_diretory.data
             directory = form.directory.data
             c_version = form.c_version.data
             n_version = form.n_version.data
@@ -189,14 +198,14 @@ def domain_edit():
                 flash("The domain is repetitive", category='error')
                 return redirect(request.args.get("next") or url_for("domain_add"))
             try:
-                domain_obj.save(domain, ip, directory, c_version, n_version, user, password)
+                domain_obj.save(domain, ip, test_directory, directory, c_version, n_version, user, password)
                 flash("add domian successfully!", category='success')
                 return redirect(request.args.get("next") or url_for("domain"))
             except:
                 flash("domain add failed", category='error')
         else:
             flash(u"不能为空", category='error')
-    return render_template('domain_add.html', title=u'添加域名', form=form)
+    return render_template('domain_edit.html', title=u'编辑域名', form=form, domain_dic=domain_dic)
 
 @app.route('/domain/del', methods=['GET', 'POST'])
 @login_required
@@ -221,13 +230,17 @@ def domain_deploy():
     if request.method == 'POST':
         if form.validate_on_submit():
             action = form.action.data
+		#回滚
             if action == 1:
                 domain = form.domain.data
                 n_version = Domain.find_one(domain)['n_version']
+                directory = Domain.find_one(domain)['directory']
+                test_directory = Domain.find_one(domain)['test_directory']
+                ip = Domain.find_one(domain)['ip']
                 version = form.version.data
                 if version >= n_version:
                     return u'版本号错误'
-                cmd = "cd && git checkout -b version && git checkout version && rsync "
+                cmd = "cd " + test_directory + "&& git checkout -b version && git checkout version && rsync " + ip + ":" + directory
                 child = subprocess32.Popen(shlex.split(cmd), shell=False)
                 child.wait()
                 returncode = child.returncode
@@ -236,6 +249,7 @@ def domain_deploy():
                     return u"成功"
                 else:
                     return u"失败"
+		#部署最新
             elif action == 0:
                 domain = form.domain.data
                 n_version = Domain.find_one(domain)['n_version']
