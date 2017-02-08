@@ -3,6 +3,12 @@ from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired
 
 
+class TestForm(FlaskForm):
+
+    domain = StringField('Username', validators=[DataRequired()])
+    version = StringField('Username', validators=[DataRequired()])
+    action = StringField('Username', validators=[DataRequired()])
+
 class UserForm(FlaskForm):
 
     username = StringField('Username', validators=[DataRequired()])

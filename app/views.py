@@ -1,20 +1,39 @@
 #-*- coding:utf-8 -*-
 from app import app, lm
-from flask import request, redirect, render_template, url_for, flash
+from flask import request, redirect, render_template, url_for, flash, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
-import subprocess32, shlex
-from .forms import UserForm, UseraddForm, DomainaddForm, DomaindeployForm
+import subprocess32, shlex, json
+from .forms import UserForm, UseraddForm, DomainaddForm, DomaindeployForm, TestForm
 from .models import User, Domain
+import time
+
+def execute(cmd):
+    child = subprocess32.Popen(shlex.split(cmd), shell=False)
+    child.wait()
+    returncode = child.returncode
+    return returncode
 
 @lm.user_loader
 def load_user(username):
     u = User(username)
     return u
 
-@app.route('/test')
+@app.route('/testpost', methods=['POST'])
+def testpost():
+    time.sleep(3)
+    #form = TestForm()
+    domain = request.form.get("domain","11")
+    #return jsonify(domain)
+    return domain
+
+@app.route('/test', methods=['GET', 'POST'])
 def test():
-    config = app.config['SECRET_KEY']
-    return render_template('test.html', users=config)
+    return render_template('test.html')
+#    cmd = "pwd"
+#    child = subprocess32.Popen(cmd, stdout=subprocess32.PIPE, shell=False)
+#    #child.wait()
+#    out = child.communicate()[0]
+#    return render_template('test.html', out=out)
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -223,45 +242,47 @@ def domain_del():
         return redirect(request.args.get("next") or url_for("domain"))
 
 
-@app.route('/domain/deploy', methods=['GET', 'POST'])
+@app.route('/domain/deploy', methods=['POST'])
 @login_required
 def domain_deploy():
-    form = DomaindeployForm()
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            action = form.action.data
-		#回滚
-            if action == 1:
-                domain = form.domain.data
-                n_version = Domain.find_one(domain)['n_version']
-                directory = Domain.find_one(domain)['directory']
-                test_directory = Domain.find_one(domain)['test_directory']
-                ip = Domain.find_one(domain)['ip']
-                version = form.version.data
-                if version >= n_version:
-                    return u'版本号错误'
-                cmd = "cd " + test_directory + "&& git checkout -b version && git checkout version && rsync " + ip + ":" + directory
-                child = subprocess32.Popen(shlex.split(cmd), shell=False)
-                child.wait()
-                returncode = child.returncode
-                if returncode == 0:
-                    Domain.update()
-                    return u"成功"
-                else:
-                    return u"失败"
-		#部署最新
-            elif action == 0:
-                domain = form.domain.data
-                n_version = Domain.find_one(domain)['n_version']
-                cmd = "git checkout -b version && git checkout version && rsync "
-                child = subprocess32.Popen(shlex.split(cmd), shell=False)
-                child.wait()
-                returncode = child.returncode
-                if returncode == 0:
-                    Domain.update()
-                    return u"成功"
-                else:
-                    return u"失败"
+    if form.validate_on_submit():
+        domain = request.form.get("domain")
+        action = request.form.get("action")
+        cmd = "pwd"
+        child = subprocess32.Popen(cmd, stdout=subprocess32.PIPE, shell=False)
+        home = child.communicate()[0]
+	#回滚
+        if action == 1:
+            version = request.form.get("version")
+            domain_dic = Domain.find_one(domain)
+            n_version = domain_dic['n_version']
+            directory = domain_dic['directory']
+            test_directory = domain_dic['test_directory']
+            ip = domain_dic['ip']
+            user = domain_dic['user']
+            password = domain_dic['password']
+            if version >= n_version:
+                return u'版本号错误'
+            cmd = "cd " + test_directory + "&& git checkout " + version + " && bash " + home + "/app/scripts/auto_rsync.sh " + test_directory + " " + directory + " " + ip + " " + user + " " + password
+            returncode = execute(cmd)
+            if returncode == 0:
+                Domain.update(domain, ip, test_directory, directory, version, n_version, user, password)
+                return u"成功"
             else:
-                return u"fuck you"
+                return u"失败"
+        #部署最新
+        elif action == 0:
+            n_version = Domain.find_one(domain)['n_version']
+            version = n_version + 1
+            cmd = "bash app/scripts/auto_rsync.sh " + test_directory + " " + directory + " " + ip + " " + user + " " + password
+            returncode = execute(cmd)
+            if returncode == 0:
+                Domain.update(domain, ip, test_directory, directory, version, version, user, password)
+                tag_cmd = "cd " + test_directory + " && git tag " + domain + "-" + version
+                tag_code = execute(tag_cmd)
+                return u"成功"
+            else:
+                return u"失败"
+        else:
+            return u"fuck you"
 

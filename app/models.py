@@ -65,6 +65,7 @@ class Domain():
     def __init__(self, domain):
         self.domain = domain
         self.ip = None
+        self.test_directory = None
         self.directory = None
         self.c_version = None
         self.n_version = None
