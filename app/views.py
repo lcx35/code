@@ -263,7 +263,7 @@ def domain_deploy():
             password = domain_dic['password']
             if version >= n_version:
                 return u'版本号错误'
-            cmd = "cd " + test_directory + "&& git checkout " + version + " && bash " + home + "/app/scripts/auto_rsync.sh " + test_directory + " " + directory + " " + ip + " " + user + " " + password
+            cmd = "cd " + test_directory + "&& git checkout " domain + "-" + version + " && bash " + home + "/app/scripts/auto_rsync.sh " + test_directory + " " + directory + " " + ip + " " + user + " " + password
             returncode = execute(cmd)
             if returncode == 0:
                 Domain.update(domain, ip, test_directory, directory, version, n_version, user, password)
