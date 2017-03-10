@@ -1,5 +1,7 @@
 from app import db
 from werkzeug.security import check_password_hash, generate_password_hash
+import time
+
 
 class User():
 
@@ -32,7 +34,6 @@ class User():
     @staticmethod
     def find(number, page):
         u = number*(page - 1)
-#        b = number*page
         users = db.user.find().skip(u).limit(number)
 	count = db.user.find().count()
 	remainder = count % number
@@ -82,14 +83,19 @@ class Domain():
 
     @staticmethod
     def find(number,page):
-        u = number*(page-1)
-        b = number*page
-        domains = db.domain.find().skip(u).limit(b)
-        return domains
+        u = number*(page - 1)
+        domains = db.domain.find().skip(u).limit(number)
+	count = db.domain.find().count()
+	remainder = count % number
+	if remainder == 0:
+		count = count // number
+	else:
+		count = count // number + 1
+        return domains, count
 
     @staticmethod
-    def save(domain, ip, directory, c_version, n_version, user, password):
-        _id = db.domain.save({ 'domain': domain, 'ip': ip, 'directory': directory,'c_version': c_version, 'n_version': n_version, 'user': user, 'password': password })
+    def save(domain, ip, test_directory, directory, c_version, n_version, user, password):
+        _id = db.domain.save({ 'domain': domain, 'ip': ip, 'test_directory': test_directory, 'directory': directory,'c_version': c_version, 'n_version': n_version, 'user': user, 'password': password })
         return _id
 
     @staticmethod
@@ -103,3 +109,28 @@ class Domain():
         return _id
 
 
+class Log():
+
+    def __init__(self, username):
+        self.username = username
+        self.datetime = None
+        self.action = None
+        self.result = None
+
+    @staticmethod
+    def save(username, action, result):
+        datetime = int(time.time())
+        _id = db.log.save({ 'datetime': datetime, 'username': username, 'action': action, 'result': result})
+        return _id
+
+    @staticmethod
+    def find(number,page):
+	count = db.log.find().count()
+        u = number*(page-1)
+        logs = db.log.find().sort([('datetime', -1)]).skip(u).limit(number)
+	remainder = count % number
+	if remainder == 0:
+		count = count // number
+	else:
+		count = count // number + 1
+        return logs, count

@@ -1,7 +1,9 @@
+#from config import *
 from flask import Flask
 from flask_login import LoginManager
 from pymongo import MongoClient
-#from config import *
+from .filters import datetimeformat
+
 
 app = Flask(__name__)
 
@@ -20,5 +22,9 @@ db = MongoClient(app.config['DATABASE_URI']).codeadmin
 lm = LoginManager()
 lm.init_app(app)
 lm.login_view = 'login'
+
+#env = Environment(loader=FileSystemLoader('/data/www/code/app/static'))
+env = app.jinja_env
+env.filters['datetimeformat'] = datetimeformat
 
 from app import views

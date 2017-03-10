@@ -151,7 +151,6 @@
 
 {% endblock %}
     </div>
-    <!-- /#wrapper -->
 
     <!-- jQuery -->
     <script src="/static/js/jquery.min.js"></script>
@@ -162,22 +161,11 @@
     <!-- Metis Menu Plugin JavaScript -->
     <script src="/static/js/metisMenu.min.js"></script>
 
-    <!-- DataTables JavaScript 
-    <script src="/static/js/jquery.dataTables.min.js"></script>
-    <script src="/static/js/dataTables.bootstrap.min.js"></script>
--->
     <!-- Custom Theme JavaScript -->
     <script src="/static/js/sb-admin-2.js"></script>
+    {% block js %}
 
-    <!-- Page-Level Demo Scripts - Tables - Use for reference 
-    <script>
-    $(document).ready(function() {
-        $('#dataTables-example').DataTable({
-                responsive: true
-        });
-    });
-    </script>
--->
+    {% endblock %}
 </body>
 
 </html>
