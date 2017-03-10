@@ -16,7 +16,7 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                       		<div class="row"><div class="col-sm-12"style="text-align: right;"><a href="/user/add"> 添加用户</a></div></div>
+                       		<div class="row"><div class="col-sm-12"style="text-align: right;"><a href="/user/add/"> 添加用户</a></div></div>
                             <div class="dataTable_wrapper">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
@@ -32,8 +32,8 @@
                                             <td>{{ user.name }}</td>
                                             <td>{{ user.master }}</td>
                                             <td>
-						<a title="编辑" class="fa fa-edit fa-fw" href="/user/settings?u={{ user.name }}"></a>
-						<a title="删除" class="fa fa-trash-o fa-fw" href="javascript:void(0);" onclick="del('/user/del?u={{ user.name }}')"></a>
+						<a title="编辑" class="fa fa-edit fa-fw" href="/user/settings/?u={{ user.name }}"></a>
+						<a title="删除" class="fa fa-trash-o fa-fw" href="javascript:void(0);" onclick="del('/user/del/?u={{ user.name }}')"></a>
 					    </td>
                                         </tr>
 				{% endfor %}

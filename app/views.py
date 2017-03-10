@@ -24,15 +24,6 @@ def load_user(username):
     u = User(username)
     return u
 
-#@app.route('/test', methods=['GET', 'POST'])
-#def test():
-#    return render_template('test.html')
-#    cmd = "pwd"
-#    child = subprocess32.Popen(shlex.split(cmd), stdout=subprocess32.PIPE, cwd="/data/www", shell=False)
-#    child.wait()
-#    out = child.communicate()[0]
-#    return render_template('test.html', out=out)
-
 @app.route('/', methods=['GET', 'POST'])
 def login():
     form = UserForm()
@@ -50,14 +41,14 @@ def login():
     return render_template('login.html', title='login', form=form)
 
 
-@app.route('/logout')
+@app.route('/logout/')
 def logout():
     r_log("logout", 0)
     logout_user()
     return redirect(url_for('login'))
 
 
-@app.route('/user')
+@app.route('/user/')
 @login_required
 def user():
     if current_user.username != "admin":
@@ -71,7 +62,7 @@ def user():
     users, count = User.find(10, page)
     return render_template('user.html', title='user', users=users, page=page, count=count)
 
-@app.route('/user/add', methods=['GET', 'POST'])
+@app.route('/user/add/', methods=['GET', 'POST'])
 @login_required
 def user_add():
     if current_user.username != "admin":
@@ -102,7 +93,7 @@ def user_add():
             r_log("user add", 1)
     return render_template('user_add.html', title='useradd', form=form)
 
-@app.route('/user/del', methods=['GET', 'POST'])
+@app.route('/user/del/', methods=['GET', 'POST'])
 @login_required
 def user_del():
     if current_user.username != "admin":
@@ -120,7 +111,7 @@ def user_del():
         r_log("user del", 1)
         return redirect(request.args.get("next") or url_for("user"))
 
-@app.route('/user/settings', methods=['GET', 'POST'])
+@app.route('/user/settings/', methods=['GET', 'POST'])
 @login_required
 def user_settings():
     form = UserForm()
@@ -153,7 +144,7 @@ def user_settings():
             r_log("user setting", 1)
     return render_template('user_settings.html', title='settings', form=form, name=name, master=master)
 
-@app.route('/log', methods=['GET', 'POST'])
+@app.route('/log/', methods=['GET', 'POST'])
 @login_required
 def log():
     page = request.args.get('p')
@@ -164,12 +155,9 @@ def log():
     logs, count = Log.find(10, page)
     return render_template('log.html', title='log', logs=logs, page=page, count=count)
 
-@app.route('/domain', methods=['GET', 'POST'])
+@app.route('/domain/', methods=['GET', 'POST'])
 @login_required
 def domain():
-    #if current_user.username != "admin":
-    #    flash("Permission denied", category='error')
-    #    return redirect(request.args.get("next") or url_for("login"))
     page = request.args.get('p')
     if page == None:
         page = 1
@@ -178,7 +166,7 @@ def domain():
     domains, count = Domain.find(10, page)
     return render_template('domain.html', title=u'域名', domains=domains, count=count, page=page)
 
-@app.route('/domain/add', methods=['GET', 'POST'])
+@app.route('/domain/add/', methods=['GET', 'POST'])
 @login_required
 def domain_add():
     if current_user.username != "admin":
@@ -214,7 +202,7 @@ def domain_add():
             r_log("domain add", 1)
     return render_template('domain_add.html', title=u'添加域名', form=form)
 
-@app.route('/domain/edit', methods=['GET', 'POST'])
+@app.route('/domain/edit/', methods=['GET', 'POST'])
 @login_required
 def domain_edit():
     if current_user.username != "admin":
@@ -251,7 +239,7 @@ def domain_edit():
             r_log("domain edit", 1)
     return render_template('domain_edit.html', title=u'编辑域名', form=form, domain_dic=domain_dic)
 
-@app.route('/domain/del', methods=['GET', 'POST'])
+@app.route('/domain/del/', methods=['GET', 'POST'])
 @login_required
 def domain_del():
     if current_user.username != "admin":
@@ -270,7 +258,7 @@ def domain_del():
         return redirect(request.args.get("next") or url_for("domain"))
 
 
-@app.route('/domain/deploy', methods=['POST'])
+@app.route('/domain/deploy/', methods=['POST'])
 @login_required
 def domain_deploy():
     domain = request.form.get("domain")

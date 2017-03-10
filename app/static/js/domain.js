@@ -5,7 +5,7 @@ obj.setAttribute('style','display:none;');
 var parentNode=obj.parentNode;
 var td=document.createElement("td");
 td.setAttribute("id", id+"edit");
-td.innerHTML='<input id="version"></input><a title="保存" class="fa fa-save fa-fw" herf="javascript:void(0);" onclick="post(\'/domain/deploy\',{domain :\''+id+'\' ,action:1})"></a><a title="取消" class="fa fa-reply-all fa-fw" herf="javascript:void(0);" onclick="cancel(\''+id+'\')"></a>';
+td.innerHTML='<input id="version"></input><a title="保存" class="fa fa-save fa-fw" herf="javascript:void(0);" onclick="post(\'/domain/deploy/\',{domain :\''+id+'\' ,action:1})"></a><a title="取消" class="fa fa-reply-all fa-fw" herf="javascript:void(0);" onclick="cancel(\''+id+'\')"></a>';
 parentNode.appendChild(td);
 }
 
