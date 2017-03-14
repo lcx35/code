@@ -1,9 +1,10 @@
 #-*- coding:utf-8 -*-
 from app import app, lm
-from flask import request, redirect, render_template, url_for, flash, jsonify
+from flask import request, redirect, render_template, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
-import subprocess32, shlex, json
-from .forms import UserForm, UseraddForm, DomainaddForm, DomaindeployForm, TestForm
+import subprocess, shlex
+#import subprocess32, shlex
+from .forms import UserForm, UseraddForm, DomainaddForm, DomaindeployForm
 from .models import User, Domain, Log
 import time
 
@@ -14,7 +15,8 @@ def r_log(action, result):
     return _id
 
 def execute(cmd, cwd=None):
-    child = subprocess32.Popen(shlex.split(cmd), cwd=cwd, shell=False)
+    child = subprocess.Popen(shlex.split(cmd), cwd=cwd, shell=False)
+    #child = subprocess32.Popen(shlex.split(cmd), cwd=cwd, shell=False)
     child.wait()
     returncode = child.returncode
     return returncode

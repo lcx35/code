@@ -1,5 +1,8 @@
 #from flask_script import Manager, Server
 from app import app
+import sys
+
+sys.path.append("/data/www/code/")
 
 #manager = Manager(app)
 #manager.add_command("runserver", Server('0.0.0.0', port=5000))

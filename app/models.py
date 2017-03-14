@@ -1,7 +1,9 @@
-from app import db
+from app import app
+from pymongo import MongoClient
 from werkzeug.security import check_password_hash, generate_password_hash
 import time
 
+db = MongoClient(app.config['DATABASE_URI']).codeadmin
 
 class User():
 
