@@ -3,7 +3,15 @@ from pymongo import MongoClient
 from werkzeug.security import check_password_hash, generate_password_hash
 import time
 
-db = MongoClient(app.config['DATABASE_URI']).codeadmin
+#db = MongoClient(app.config['DATABASE_URI'], connect=False).codeadmin
+client = MongoClient(app.config['DBHOST'], app.config['DBPORT'], connect=False)
+#client = MongoClient(app.config['DBHOST'], app.config['DBPORT'])
+db = client[app.config['DBNAME']]
+db.authenticate(app.config['DBUSER'], app.config['DBPASS'], app.config['DBAUTH_SOURCE'])
+user_coll = db[app.config['USER_COLLECTION']]
+domain_coll = db[app.config['DOMAIN_COLLECTION']]
+log_coll = db[app.config['LOG_COLLECTION']]
+
 
 class User():
 
@@ -30,14 +38,14 @@ class User():
 
     @staticmethod
     def find_one(username):
-        user = db.user.find_one({ 'name': username })
+        user = user_coll.find_one({ 'name': username })
         return user
 
     @staticmethod
     def find(number, page):
         u = number*(page - 1)
-        users = db.user.find().skip(u).limit(number)
-	count = db.user.find().count()
+        users = user_coll.find().skip(u).limit(number)
+	count = user_coll.find().count()
 	remainder = count % number
 	if remainder == 0:
 		count = count // number
@@ -48,18 +56,18 @@ class User():
     @staticmethod
     def save(username, master, password):
         password_hash = generate_password_hash(password)
-        _id = db.user.save({ 'name': username, 'master': master, 'password': password_hash })
+        _id = user_coll.save({ 'name': username, 'master': master, 'password': password_hash })
         return _id
 
     @staticmethod
     def update(username, master, password):
         password_hash = generate_password_hash(password)
-        _id = db.user.update({ 'name': username }, { '$set' : { 'master': master, 'password': password_hash }})
+        _id = user_coll.update({ 'name': username }, { '$set' : { 'master': master, 'password': password_hash }})
         return _id
 
     @staticmethod
     def remove(username):
-        _id = db.user.remove({ 'name': username })
+        _id = user_coll.remove({ 'name': username })
         return _id
 
 
@@ -80,14 +88,14 @@ class Domain():
 
     @staticmethod
     def find_one(domain):
-        domain = db.domain.find_one({ 'domain': domain })
+        domain = domain_coll.find_one({ 'domain': domain })
         return domain
 
     @staticmethod
     def find(number,page):
         u = number*(page - 1)
-        domains = db.domain.find().skip(u).limit(number)
-	count = db.domain.find().count()
+        domains = domain_coll.find().skip(u).limit(number)
+	count = domain_coll.find().count()
 	remainder = count % number
 	if remainder == 0:
 		count = count // number
@@ -97,17 +105,17 @@ class Domain():
 
     @staticmethod
     def save(domain, ip, test_directory, directory, c_version, n_version, user, password):
-        _id = db.domain.save({ 'domain': domain, 'ip': ip, 'test_directory': test_directory, 'directory': directory,'c_version': c_version, 'n_version': n_version, 'user': user, 'password': password })
+        _id = domain_coll.save({ 'domain': domain, 'ip': ip, 'test_directory': test_directory, 'directory': directory,'c_version': c_version, 'n_version': n_version, 'user': user, 'password': password })
         return _id
 
     @staticmethod
     def update(domain, ip, test_directory, directory, c_version, n_version, user, password):
-        _id = db.domain.update({ 'domain': domain }, { '$set': { 'ip': ip, 'test_directory': test_directory, 'directory': directory,'c_version': c_version, 'n_version': n_version, 'user': user, 'password': password } })
+        _id = domain_coll.update({ 'domain': domain }, { '$set': { 'ip': ip, 'test_directory': test_directory, 'directory': directory,'c_version': c_version, 'n_version': n_version, 'user': user, 'password': password } })
         return _id
 
     @staticmethod
     def remove(domain):
-        _id = db.domain.remove({ 'domain': domain })
+        _id = domain_coll.remove({ 'domain': domain })
         return _id
 
 
@@ -122,14 +130,14 @@ class Log():
     @staticmethod
     def save(username, action, result):
         datetime = int(time.time())
-        _id = db.log.save({ 'datetime': datetime, 'username': username, 'action': action, 'result': result})
+        _id = log_coll.save({ 'datetime': datetime, 'username': username, 'action': action, 'result': result})
         return _id
 
     @staticmethod
     def find(number,page):
-	count = db.log.find().count()
+	count = log_coll.find().count()
         u = number*(page-1)
-        logs = db.log.find().sort([('datetime', -1)]).skip(u).limit(number)
+        logs = log_coll.find().sort([('datetime', -1)]).skip(u).limit(number)
 	remainder = count % number
 	if remainder == 0:
 		count = count // number

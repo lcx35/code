@@ -26,8 +26,19 @@ def load_user(username):
     u = User(username)
     return u
 
+@app.route('/test/', methods=['GET', 'POST'])
+def test():
+    if request.method == 'POST':
+        file = request.files['file']
+        file.save("app/static/upload/aa.png")
+        return "aa"
+    else:
+        return render_template('test.html')
+
 @app.route('/', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(request.args.get("next") or url_for("log"))
     form = UserForm()
     if request.method == 'POST' and form.validate_on_submit():
         user = User.find_one(form.username.data)
