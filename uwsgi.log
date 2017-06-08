@@ -205,3 +205,284 @@ SIGINT/SIGQUIT received...killing workers...
 worker 1 buried after 1 seconds
 worker 2 buried after 1 seconds
 goodbye to uWSGI.
+*** Starting uWSGI 2.0.14 (64bit) on [Mon Apr 10 15:07:44 2017] ***
+compiled with version: 4.8.4 on 10 March 2017 11:44:01
+os: Linux-3.13.0-32-generic #57-Ubuntu SMP Tue Jul 15 03:51:08 UTC 2014
+nodename: ubuntu-web
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 16
+current working directory: /data/www/code
+writing pidfile to /data/www/code//uwsgi.pid
+detected binary path: /usr/local/bin/uwsgi
+setgid() to 1003
+set additional group 33 (www-data)
+setuid() to 1003
+chdir() to /data/www/code/
+your processes number limit is 95816
+your memory page size is 4096 bytes
+detected max file descriptor number: 1000000
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:9090 fd 3
+Python version: 2.7.6 (default, Oct 26 2016, 20:33:43)  [GCC 4.8.4]
+Set PythonHome to /data/www/code/venv
+Python main interpreter initialized at 0x1506130
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 311040 bytes (303 KB) for 8 cores
+*** Operational MODE: preforking+threaded ***
+added /data/www/code/ to pythonpath.
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 27278)
+spawned uWSGI worker 1 (pid: 27279, cores: 4)
+spawned uWSGI worker 2 (pid: 27280, cores: 4)
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0x1506130 pid: 27279 (default app)
+mountpoint  already configured. skip.
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0x1506130 pid: 27280 (default app)
+mountpoint  already configured. skip.
+[pid: 27280|app: 0|req: 1/1] 192.168.2.141 () {40 vars in 610 bytes} [Mon Apr 10 15:08:59 2017] GET / => generated 3156 bytes in 37 msecs (HTTP/1.1 200) 3 headers in 263 bytes (1 switches on core 0)
+[pid: 27280|app: 0|req: 2/2] 192.168.2.141 () {40 vars in 543 bytes} [Mon Apr 10 15:08:59 2017] GET /favicon.ico => generated 233 bytes in 12 msecs (HTTP/1.1 404) 2 headers in 72 bytes (1 switches on core 1)
+[pid: 27280|app: 0|req: 3/3] 192.168.2.141 () {50 vars in 963 bytes} [Mon Apr 10 15:09:04 2017] POST / => generated 217 bytes in 252 msecs (HTTP/1.1 302) 4 headers in 604 bytes (1 switches on core 2)
+[pid: 27280|app: 0|req: 4/4] 192.168.2.141 () {46 vars in 1152 bytes} [Mon Apr 10 15:09:04 2017] GET /log/ => generated 11836 bytes in 82 msecs (HTTP/1.1 200) 3 headers in 490 bytes (1 switches on core 3)
+[pid: 27279|app: 0|req: 1/5] 192.168.2.141 () {40 vars in 543 bytes} [Mon Apr 10 15:09:04 2017] GET /favicon.ico => generated 233 bytes in 15 msecs (HTTP/1.1 404) 2 headers in 72 bytes (1 switches on core 0)
+[pid: 27280|app: 0|req: 5/6] 192.168.2.141 () {44 vars in 1061 bytes} [Mon Apr 10 15:09:17 2017] GET /log/?p=2 => generated 11611 bytes in 70 msecs (HTTP/1.1 200) 2 headers in 82 bytes (1 switches on core 0)
+[pid: 27280|app: 0|req: 6/7] 192.168.2.141 () {44 vars in 1065 bytes} [Mon Apr 10 15:09:18 2017] GET /log/?p=1 => generated 11611 bytes in 70 msecs (HTTP/1.1 200) 2 headers in 82 bytes (1 switches on core 2)
+[pid: 27280|app: 0|req: 7/8] 192.168.2.141 () {44 vars in 1060 bytes} [Mon Apr 10 15:09:23 2017] GET /user/ => generated 13000 bytes in 78 msecs (HTTP/1.1 200) 2 headers in 82 bytes (1 switches on core 3)
+[pid: 27280|app: 0|req: 8/9] 192.168.2.141 () {44 vars in 1061 bytes} [Mon Apr 10 15:09:27 2017] GET /domain/ => generated 9042 bytes in 82 msecs (HTTP/1.1 200) 2 headers in 81 bytes (1 switches on core 1)
+[pid: 27280|app: 0|req: 9/10] 192.168.2.141 () {44 vars in 1059 bytes} [Mon Apr 10 15:09:29 2017] GET /user/ => generated 13000 bytes in 69 msecs (HTTP/1.1 200) 2 headers in 82 bytes (1 switches on core 0)
+[pid: 27279|app: 0|req: 2/11] 192.168.2.141 () {44 vars in 1055 bytes} [Mon Apr 10 15:09:31 2017] GET /log/ => generated 11611 bytes in 84 msecs (HTTP/1.1 200) 2 headers in 82 bytes (1 switches on core 2)
+[pid: 27279|app: 0|req: 3/12] 192.168.2.141 () {44 vars in 1056 bytes} [Mon Apr 10 15:09:40 2017] GET /user/ => generated 13000 bytes in 59 msecs (HTTP/1.1 200) 2 headers in 82 bytes (1 switches on core 1)
+[pid: 27279|app: 0|req: 4/13] 192.168.2.141 () {40 vars in 610 bytes} [Mon Apr 10 15:15:12 2017] GET / => generated 3156 bytes in 12 msecs (HTTP/1.1 200) 3 headers in 263 bytes (1 switches on core 3)
+[pid: 27280|app: 0|req: 10/14] 192.168.2.141 () {40 vars in 543 bytes} [Mon Apr 10 15:15:12 2017] GET /favicon.ico => generated 233 bytes in 0 msecs (HTTP/1.1 404) 2 headers in 72 bytes (1 switches on core 2)
+[pid: 27280|app: 0|req: 12/15] 192.168.2.141 () {40 vars in 610 bytes} [Mon Apr 10 15:23:56 2017] GET / => generated 3156 bytes in 4 msecs (HTTP/1.1 200) 3 headers in 263 bytes (1 switches on core 1)
+[pid: 27279|app: 0|req: 5/16] 192.168.2.141 () {40 vars in 543 bytes} [Mon Apr 10 15:23:56 2017] GET /favicon.ico => generated 233 bytes in 1 msecs (HTTP/1.1 404) 2 headers in 72 bytes (1 switches on core 0)
+Traceback (most recent call last):
+  File "/data/www/code/venv/lib/python2.7/site-packages/flask/app.py", line 1994, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/data/www/code/venv/lib/python2.7/site-packages/flask/app.py", line 1985, in wsgi_app
+    response = self.handle_exception(e)
+  File "/data/www/code/venv/lib/python2.7/site-packages/flask/app.py", line 1540, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/data/www/code/venv/lib/python2.7/site-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/data/www/code/venv/lib/python2.7/site-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/data/www/code/venv/lib/python2.7/site-packages/flask/app.py", line 1517, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/data/www/code/venv/lib/python2.7/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/data/www/code/venv/lib/python2.7/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/data/www/code/app/views.py", line 44, in login
+    user = User.find_one(form.username.data)
+  File "/data/www/code/app/models.py", line 41, in find_one
+    user = user_coll.find_one({ 'name': username })
+  File "/data/www/code/venv/lib/python2.7/site-packages/pymongo/collection.py", line 1102, in find_one
+    for result in cursor.limit(-1):
+  File "/data/www/code/venv/lib/python2.7/site-packages/pymongo/cursor.py", line 1114, in next
+    if len(self.__data) or self._refresh():
+  File "/data/www/code/venv/lib/python2.7/site-packages/pymongo/cursor.py", line 1036, in _refresh
+    self.__collation))
+  File "/data/www/code/venv/lib/python2.7/site-packages/pymongo/cursor.py", line 873, in __send_message
+    **kwargs)
+  File "/data/www/code/venv/lib/python2.7/site-packages/pymongo/mongo_client.py", line 905, in _send_message_with_response
+    exhaust)
+  File "/data/www/code/venv/lib/python2.7/site-packages/pymongo/mongo_client.py", line 916, in _reset_on_error
+    return func(*args, **kwargs)
+  File "/data/www/code/venv/lib/python2.7/site-packages/pymongo/server.py", line 136, in send_message_with_response
+    response_data = sock_info.receive_message(1, request_id)
+  File "/data/www/code/venv/lib/python2.7/site-packages/pymongo/pool.py", line 452, in receive_message
+    self._raise_connection_failure(error)
+  File "/data/www/code/venv/lib/python2.7/site-packages/pymongo/pool.py", line 550, in _raise_connection_failure
+    _raise_connection_failure(self.address, error)
+  File "/data/www/code/venv/lib/python2.7/site-packages/pymongo/pool.py", line 211, in _raise_connection_failure
+    raise AutoReconnect(msg)
+pymongo.errors.AutoReconnect: 123.206.14.167:27017: [Errno 110] Connection timed out
+[pid: 27280|app: 0|req: 12/17] 192.168.2.141 () {50 vars in 963 bytes} [Mon Apr 10 15:15:17 2017] POST / => generated 0 bytes in 963215 msecs (HTTP/1.1 500) 0 headers in 0 bytes (0 switches on core 3)
+Traceback (most recent call last):
+  File "/data/www/code/venv/lib/python2.7/site-packages/flask/app.py", line 1994, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/data/www/code/venv/lib/python2.7/site-packages/flask/app.py", line 1985, in wsgi_app
+    response = self.handle_exception(e)
+  File "/data/www/code/venv/lib/python2.7/site-packages/flask/app.py", line 1540, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/data/www/code/venv/lib/python2.7/site-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/data/www/code/venv/lib/python2.7/site-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/data/www/code/venv/lib/python2.7/site-packages/flask/app.py", line 1517, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/data/www/code/venv/lib/python2.7/site-packages/flask/app.py", line 1612, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/data/www/code/venv/lib/python2.7/site-packages/flask/app.py", line 1598, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/data/www/code/app/views.py", line 44, in login
+    user = User.find_one(form.username.data)
+  File "/data/www/code/app/models.py", line 41, in find_one
+    user = user_coll.find_one({ 'name': username })
+  File "/data/www/code/venv/lib/python2.7/site-packages/pymongo/collection.py", line 1102, in find_one
+    for result in cursor.limit(-1):
+  File "/data/www/code/venv/lib/python2.7/site-packages/pymongo/cursor.py", line 1114, in next
+    if len(self.__data) or self._refresh():
+  File "/data/www/code/venv/lib/python2.7/site-packages/pymongo/cursor.py", line 1036, in _refresh
+    self.__collation))
+  File "/data/www/code/venv/lib/python2.7/site-packages/pymongo/cursor.py", line 873, in __send_message
+    **kwargs)
+  File "/data/www/code/venv/lib/python2.7/site-packages/pymongo/mongo_client.py", line 905, in _send_message_with_response
+    exhaust)
+  File "/data/www/code/venv/lib/python2.7/site-packages/pymongo/mongo_client.py", line 916, in _reset_on_error
+    return func(*args, **kwargs)
+  File "/data/www/code/venv/lib/python2.7/site-packages/pymongo/server.py", line 136, in send_message_with_response
+    response_data = sock_info.receive_message(1, request_id)
+  File "/data/www/code/venv/lib/python2.7/site-packages/pymongo/pool.py", line 452, in receive_message
+    self._raise_connection_failure(error)
+  File "/data/www/code/venv/lib/python2.7/site-packages/pymongo/pool.py", line 550, in _raise_connection_failure
+    _raise_connection_failure(self.address, error)
+  File "/data/www/code/venv/lib/python2.7/site-packages/pymongo/pool.py", line 211, in _raise_connection_failure
+    raise AutoReconnect(msg)
+pymongo.errors.AutoReconnect: 123.206.14.167:27017: [Errno 110] Connection timed out
+[pid: 27279|app: 0|req: 6/18] 192.168.2.141 () {50 vars in 963 bytes} [Mon Apr 10 15:24:02 2017] POST / => generated 0 bytes in 951723 msecs (HTTP/1.1 500) 0 headers in 0 bytes (0 switches on core 2)
+*** Starting uWSGI 1.9.17.1-debian (64bit) on [Tue Apr 18 15:20:07 2017] ***
+compiled with version: 4.8.2 on 23 March 2014 17:15:32
+os: Linux-3.13.0-32-generic #57-Ubuntu SMP Tue Jul 15 03:51:08 UTC 2014
+nodename: ubuntu-web
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 16
+current working directory: /
+writing pidfile to /data/www/code//uwsgi.pid
+detected binary path: /usr/bin/uwsgi-core
+setgid() to 1003
+set additional group 33 (www-data)
+setuid() to 1003
+your processes number limit is 95816
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:9090 fd 3
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 311328 bytes (304 KB) for 8 cores
+*** Operational MODE: preforking+threaded ***
+*** uWSGI is running in multiple interpreter mode ***
+!!!!!!!!!!!!!! WARNING !!!!!!!!!!!!!!
+no request plugin is loaded, you will not be able to manage requests.
+you may need to install the package for your language of choice, or simply load it with --plugin.
+!!!!!!!!!!! END OF WARNING !!!!!!!!!!
+spawned uWSGI master process (pid: 1575)
+spawned uWSGI worker 1 (pid: 1582, cores: 4)
+spawned uWSGI worker 2 (pid: 1583, cores: 4)
+*** no app loaded. going in full dynamic mode ***
+*** no app loaded. going in full dynamic mode ***
+...brutally killing workers...
+worker 1 buried after 0 seconds
+worker 2 buried after 0 seconds
+binary reloading uWSGI...
+chdir() to /
+closing all non-uwsgi socket fds > 2 (max_fd = 1024)...
+found fd 3 mapped to socket 0 (127.0.0.1:9090)
+running /usr/bin/uwsgi-core
+[uWSGI] getting INI configuration from /data/www/code/uwsgi.ini
+*** Starting uWSGI 1.9.17.1-debian (64bit) on [Tue Apr 18 15:32:54 2017] ***
+compiled with version: 4.8.2 on 23 March 2014 17:15:32
+os: Linux-3.13.0-32-generic #57-Ubuntu SMP Tue Jul 15 03:51:08 UTC 2014
+nodename: ubuntu-web
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 16
+current working directory: /
+detected binary path: /usr/bin/uwsgi-core
+your processes number limit is 95816
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 inherited INET address 127.0.0.1:9090 fd 3
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 311328 bytes (304 KB) for 8 cores
+*** Operational MODE: preforking+threaded ***
+*** uWSGI is running in multiple interpreter mode ***
+!!!!!!!!!!!!!! WARNING !!!!!!!!!!!!!!
+no request plugin is loaded, you will not be able to manage requests.
+you may need to install the package for your language of choice, or simply load it with --plugin.
+!!!!!!!!!!! END OF WARNING !!!!!!!!!!
+gracefully (RE)spawned uWSGI master process (pid: 1575)
+spawned uWSGI worker 1 (pid: 2686, cores: 4)
+spawned uWSGI worker 2 (pid: 2687, cores: 4)
+*** no app loaded. going in full dynamic mode ***
+*** no app loaded. going in full dynamic mode ***
+*** Starting uWSGI 1.9.17.1-debian (64bit) on [Tue Apr 18 15:48:50 2017] ***
+compiled with version: 4.8.2 on 23 March 2014 17:15:32
+os: Linux-3.13.0-32-generic #57-Ubuntu SMP Tue Jul 15 03:51:08 UTC 2014
+nodename: ubuntu-web
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 16
+current working directory: /
+writing pidfile to /data/www/code//uwsgi.pid
+detected binary path: /usr/bin/uwsgi-core
+setgid() to 1003
+set additional group 33 (www-data)
+setuid() to 1003
+your processes number limit is 95816
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:9090 fd 3
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 311328 bytes (304 KB) for 8 cores
+*** Operational MODE: preforking+threaded ***
+*** uWSGI is running in multiple interpreter mode ***
+!!!!!!!!!!!!!! WARNING !!!!!!!!!!!!!!
+no request plugin is loaded, you will not be able to manage requests.
+you may need to install the package for your language of choice, or simply load it with --plugin.
+!!!!!!!!!!! END OF WARNING !!!!!!!!!!
+spawned uWSGI master process (pid: 1530)
+spawned uWSGI worker 1 (pid: 1558, cores: 4)
+spawned uWSGI worker 2 (pid: 1559, cores: 4)
+*** no app loaded. going in full dynamic mode ***
+*** no app loaded. going in full dynamic mode ***
+*** Starting uWSGI 1.9.17.1-debian (64bit) on [Sun Apr 30 06:20:14 2017] ***
+compiled with version: 4.8.2 on 23 March 2014 17:15:32
+os: Linux-3.13.0-32-generic #57-Ubuntu SMP Tue Jul 15 03:51:08 UTC 2014
+nodename: ubuntu-web
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 16
+current working directory: /
+writing pidfile to /data/www/code//uwsgi.pid
+detected binary path: /usr/bin/uwsgi-core
+setgid() to 1003
+set additional group 33 (www-data)
+setuid() to 1003
+your processes number limit is 95816
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:9090 fd 3
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 311328 bytes (304 KB) for 8 cores
+*** Operational MODE: preforking+threaded ***
+*** uWSGI is running in multiple interpreter mode ***
+!!!!!!!!!!!!!! WARNING !!!!!!!!!!!!!!
+no request plugin is loaded, you will not be able to manage requests.
+you may need to install the package for your language of choice, or simply load it with --plugin.
+!!!!!!!!!!! END OF WARNING !!!!!!!!!!
+spawned uWSGI master process (pid: 2010)
+spawned uWSGI worker 1 (pid: 2017, cores: 4)
+*** no app loaded. going in full dynamic mode ***
+spawned uWSGI worker 2 (pid: 2018, cores: 4)
+*** no app loaded. going in full dynamic mode ***

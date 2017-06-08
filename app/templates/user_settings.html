@@ -19,10 +19,15 @@
                                 <div class="col-lg-12">
                                     <form role="form" action="" method="POST" name="form">
 					 {{ form.hidden_tag() }}
+                                        <div class="form-group" style="display:none">
+                                            <label>ID</label>
+						<input name="id" class="form-control" id="id" type="text" placeholder="ID" value="{{ id }}">
+                                            <p class="help-block">不可修改</p>
+                                        </div>
                                         <div class="form-group">
                                             <label>用户名</label>
 						<input name="username" class="form-control" id="username" type="text" placeholder="Username" value="{{ name }}">
-                                            <p class="help-block">Example block-level help text here.</p>
+                                            <p class="help-block">用户名不可修改</p>
                                         </div>
                                         <div class="form-group">
                                             <label>所属人员</label>

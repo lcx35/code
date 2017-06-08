@@ -1,0 +1,207 @@
+*** Starting uWSGI 2.0.14 (64bit) on [Fri Mar 24 13:57:38 2017] ***
+compiled with version: 4.8.4 on 10 March 2017 11:44:01
+os: Linux-3.13.0-32-generic #57-Ubuntu SMP Tue Jul 15 03:51:08 UTC 2014
+nodename: ubuntu-web
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 16
+current working directory: /data/www/code/app
+writing pidfile to /data/www/code//uwsgi.pid
+detected binary path: /usr/local/bin/uwsgi
+setgid() to 1003
+set additional group 33 (www-data)
+setuid() to 1003
+chdir() to /data/www/code/
+your processes number limit is 95816
+your memory page size is 4096 bytes
+detected max file descriptor number: 1000000
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:9090 fd 3
+Python version: 2.7.6 (default, Oct 26 2016, 20:33:43)  [GCC 4.8.4]
+Set PythonHome to /data/www/code/venv
+Python main interpreter initialized at 0xc83120
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 311040 bytes (303 KB) for 8 cores
+*** Operational MODE: preforking+threaded ***
+added /data/www/code/ to pythonpath.
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 7331)
+spawned uWSGI worker 1 (pid: 7332, cores: 4)
+spawned uWSGI worker 2 (pid: 7333, cores: 4)
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0xc83120 pid: 7333 (default app)
+mountpoint  already configured. skip.
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0xc83120 pid: 7332 (default app)
+mountpoint  already configured. skip.
+[pid: 7333|app: 0|req: 1/1] 192.168.2.141 () {40 vars in 610 bytes} [Fri Mar 24 14:01:49 2017] GET / => generated 3156 bytes in 37 msecs (HTTP/1.1 200) 3 headers in 263 bytes (1 switches on core 0)
+[pid: 7332|app: 0|req: 1/2] 192.168.2.141 () {40 vars in 543 bytes} [Fri Mar 24 14:01:49 2017] GET /favicon.ico => generated 233 bytes in 15 msecs (HTTP/1.1 404) 2 headers in 72 bytes (1 switches on core 0)
+[pid: 7333|app: 0|req: 3/3] 192.168.2.141 () {40 vars in 543 bytes} [Fri Mar 24 14:02:53 2017] GET /favicon.ico => generated 233 bytes in 15 msecs (HTTP/1.1 404) 2 headers in 72 bytes (1 switches on core 3)
+SIGINT/SIGQUIT received...killing workers...
+worker 1 buried after 1 seconds
+worker 2 buried after 1 seconds
+goodbye to uWSGI.
+*** Starting uWSGI 2.0.14 (64bit) on [Fri Mar 24 14:13:22 2017] ***
+compiled with version: 4.8.4 on 10 March 2017 11:44:01
+os: Linux-3.13.0-32-generic #57-Ubuntu SMP Tue Jul 15 03:51:08 UTC 2014
+nodename: ubuntu-web
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 16
+current working directory: /root
+writing pidfile to /data/www/code//uwsgi.pid
+detected binary path: /usr/local/bin/uwsgi
+setgid() to 1003
+set additional group 33 (www-data)
+setuid() to 1003
+chdir() to /data/www/code/
+your processes number limit is 95816
+your memory page size is 4096 bytes
+detected max file descriptor number: 1000000
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:9090 fd 3
+Python version: 2.7.6 (default, Oct 26 2016, 20:33:43)  [GCC 4.8.4]
+Set PythonHome to /data/www/code/venv
+Python main interpreter initialized at 0x26750f0
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 311040 bytes (303 KB) for 8 cores
+*** Operational MODE: preforking+threaded ***
+added /data/www/code/ to pythonpath.
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 7527)
+spawned uWSGI worker 1 (pid: 7528, cores: 4)
+spawned uWSGI worker 2 (pid: 7529, cores: 4)
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0x26750f0 pid: 7529 (default app)
+mountpoint  already configured. skip.
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0x26750f0 pid: 7528 (default app)
+mountpoint  already configured. skip.
+[pid: 7528|app: 0|req: 1/1] 192.168.2.141 () {50 vars in 964 bytes} [Fri Mar 24 14:17:18 2017] POST / => generated 217 bytes in 89 msecs (HTTP/1.1 302) 4 headers in 602 bytes (1 switches on core 0)
+[pid: 7528|app: 0|req: 2/2] 192.168.2.141 () {46 vars in 1151 bytes} [Fri Mar 24 14:17:19 2017] GET /log/ => generated 11839 bytes in 99 msecs (HTTP/1.1 200) 3 headers in 486 bytes (1 switches on core 2)
+[pid: 7529|app: 0|req: 1/3] 192.168.2.141 () {44 vars in 1053 bytes} [Fri Mar 24 14:17:20 2017] GET /user/ => generated 13000 bytes in 78 msecs (HTTP/1.1 200) 2 headers in 82 bytes (1 switches on core 0)
+[pid: 7529|app: 0|req: 2/4] 192.168.2.141 () {40 vars in 611 bytes} [Fri Mar 24 14:17:56 2017] GET / => generated 3156 bytes in 13 msecs (HTTP/1.1 200) 3 headers in 263 bytes (1 switches on core 2)
+[pid: 7528|app: 0|req: 3/5] 192.168.2.141 () {40 vars in 544 bytes} [Fri Mar 24 14:17:56 2017] GET /favicon.ico => generated 233 bytes in 13 msecs (HTTP/1.1 404) 2 headers in 72 bytes (1 switches on core 1)
+[pid: 7528|app: 0|req: 4/6] 192.168.2.141 () {50 vars in 964 bytes} [Fri Mar 24 14:18:00 2017] POST / => generated 217 bytes in 54 msecs (HTTP/1.1 302) 4 headers in 603 bytes (1 switches on core 2)
+[pid: 7528|app: 0|req: 5/7] 192.168.2.141 () {46 vars in 1152 bytes} [Fri Mar 24 14:18:00 2017] GET /log/ => generated 11838 bytes in 35 msecs (HTTP/1.1 200) 3 headers in 489 bytes (1 switches on core 3)
+[pid: 7528|app: 0|req: 6/8] 192.168.2.141 () {40 vars in 544 bytes} [Fri Mar 24 14:18:00 2017] GET /favicon.ico => generated 233 bytes in 1 msecs (HTTP/1.1 404) 2 headers in 72 bytes (1 switches on core 0)
+[pid: 7528|app: 0|req: 7/9] 192.168.2.141 () {40 vars in 611 bytes} [Fri Mar 24 14:44:40 2017] GET / => generated 3156 bytes in 13 msecs (HTTP/1.1 200) 3 headers in 263 bytes (1 switches on core 1)
+[pid: 7529|app: 0|req: 3/10] 192.168.2.141 () {40 vars in 544 bytes} [Fri Mar 24 14:44:41 2017] GET /favicon.ico => generated 233 bytes in 14 msecs (HTTP/1.1 404) 2 headers in 72 bytes (1 switches on core 1)
+[pid: 7529|app: 0|req: 6/11] 192.168.2.141 () {50 vars in 964 bytes} [Fri Mar 24 14:45:08 2017] POST / => generated 217 bytes in 1146 msecs (HTTP/1.1 302) 4 headers in 603 bytes (1 switches on core 3)
+[pid: 7529|app: 0|req: 7/12] 192.168.2.141 () {50 vars in 964 bytes} [Fri Mar 24 14:45:09 2017] POST / => generated 217 bytes in 62 msecs (HTTP/1.1 302) 4 headers in 603 bytes (1 switches on core 0)
+[pid: 7528|app: 0|req: 10/13] 192.168.2.141 () {50 vars in 964 bytes} [Fri Mar 24 14:45:07 2017] POST / => generated 217 bytes in 2032 msecs (HTTP/1.1 302) 4 headers in 603 bytes (1 switches on core 1)
+[pid: 7529|app: 0|req: 8/14] 192.168.2.141 () {46 vars in 1152 bytes} [Fri Mar 24 14:45:09 2017] GET /log/ => generated 11837 bytes in 50 msecs (HTTP/1.1 200) 3 headers in 488 bytes (1 switches on core 3)
+[pid: 7528|app: 0|req: 10/15] 192.168.2.141 () {50 vars in 964 bytes} [Fri Mar 24 14:45:09 2017] POST / => generated 217 bytes in 586 msecs (HTTP/1.1 302) 4 headers in 603 bytes (1 switches on core 3)
+[pid: 7528|app: 0|req: 11/16] 192.168.2.141 () {40 vars in 544 bytes} [Fri Mar 24 14:45:10 2017] GET /favicon.ico => generated 233 bytes in 0 msecs (HTTP/1.1 404) 2 headers in 72 bytes (1 switches on core 0)
+[pid: 7529|app: 0|req: 8/17] 192.168.2.141 () {50 vars in 964 bytes} [Fri Mar 24 14:45:09 2017] POST / => generated 217 bytes in 2207 msecs (HTTP/1.1 302) 4 headers in 603 bytes (1 switches on core 1)
+SIGINT/SIGQUIT received...killing workers...
+worker 1 buried after 1 seconds
+worker 2 buried after 1 seconds
+goodbye to uWSGI.
+*** Starting uWSGI 2.0.14 (64bit) on [Fri Mar 24 14:47:52 2017] ***
+compiled with version: 4.8.4 on 10 March 2017 11:44:01
+os: Linux-3.13.0-32-generic #57-Ubuntu SMP Tue Jul 15 03:51:08 UTC 2014
+nodename: ubuntu-web
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 16
+current working directory: /data/www/code/app
+writing pidfile to /data/www/code//uwsgi.pid
+detected binary path: /usr/local/bin/uwsgi
+setgid() to 1003
+set additional group 33 (www-data)
+setuid() to 1003
+chdir() to /data/www/code/
+your processes number limit is 95816
+your memory page size is 4096 bytes
+detected max file descriptor number: 1000000
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:9090 fd 3
+Python version: 2.7.6 (default, Oct 26 2016, 20:33:43)  [GCC 4.8.4]
+Set PythonHome to /data/www/code/venv
+Python main interpreter initialized at 0x931120
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 311040 bytes (303 KB) for 8 cores
+*** Operational MODE: preforking+threaded ***
+added /data/www/code/ to pythonpath.
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 7615)
+spawned uWSGI worker 1 (pid: 7616, cores: 4)
+spawned uWSGI worker 2 (pid: 7617, cores: 4)
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0x931120 pid: 7616 (default app)
+mountpoint  already configured. skip.
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0x931120 pid: 7617 (default app)
+mountpoint  already configured. skip.
+[pid: 7616|app: 0|req: 1/1] 192.168.2.141 () {40 vars in 611 bytes} [Fri Mar 24 14:49:09 2017] GET / => generated 3156 bytes in 40 msecs (HTTP/1.1 200) 3 headers in 263 bytes (1 switches on core 0)
+[pid: 7617|app: 0|req: 1/2] 192.168.2.141 () {40 vars in 544 bytes} [Fri Mar 24 14:49:10 2017] GET /favicon.ico => generated 233 bytes in 15 msecs (HTTP/1.1 404) 2 headers in 72 bytes (1 switches on core 0)
+[pid: 7617|app: 0|req: 2/3] 192.168.2.141 () {50 vars in 964 bytes} [Fri Mar 24 14:49:15 2017] POST / => generated 217 bytes in 61 msecs (HTTP/1.1 302) 4 headers in 604 bytes (1 switches on core 2)
+[pid: 7617|app: 0|req: 3/4] 192.168.2.141 () {46 vars in 1153 bytes} [Fri Mar 24 14:49:15 2017] GET /log/ => generated 11836 bytes in 81 msecs (HTTP/1.1 200) 3 headers in 492 bytes (1 switches on core 3)
+[pid: 7617|app: 0|req: 4/5] 192.168.2.141 () {40 vars in 544 bytes} [Fri Mar 24 14:49:15 2017] GET /favicon.ico => generated 233 bytes in 0 msecs (HTTP/1.1 404) 2 headers in 72 bytes (1 switches on core 1)
+[pid: 7617|app: 0|req: 5/6] 192.168.2.141 () {40 vars in 697 bytes} [Fri Mar 24 14:50:26 2017] GET / => generated 3156 bytes in 12 msecs (HTTP/1.1 200) 3 headers in 263 bytes (1 switches on core 0)
+[pid: 7617|app: 0|req: 6/7] 192.168.2.141 () {42 vars in 844 bytes} [Fri Mar 24 14:50:26 2017] GET /favicon.ico => generated 233 bytes in 1 msecs (HTTP/1.1 404) 2 headers in 72 bytes (1 switches on core 2)
+[pid: 7617|app: 0|req: 7/8] 192.168.2.141 () {52 vars in 1084 bytes} [Fri Mar 24 14:50:29 2017] POST / => generated 217 bytes in 108 msecs (HTTP/1.1 302) 4 headers in 606 bytes (1 switches on core 3)
+[pid: 7617|app: 0|req: 8/9] 192.168.2.141 () {46 vars in 1242 bytes} [Fri Mar 24 14:50:30 2017] GET /log/ => generated 11836 bytes in 41 msecs (HTTP/1.1 200) 3 headers in 489 bytes (1 switches on core 1)
+[pid: 7616|app: 0|req: 2/10] 192.168.2.141 () {44 vars in 1142 bytes} [Fri Mar 24 14:50:33 2017] GET /user/ => generated 13000 bytes in 633 msecs (HTTP/1.1 200) 2 headers in 82 bytes (1 switches on core 1)
+[pid: 7616|app: 0|req: 3/11] 192.168.2.141 () {44 vars in 1141 bytes} [Fri Mar 24 14:50:35 2017] GET /log/ => generated 11611 bytes in 3621 msecs (HTTP/1.1 200) 2 headers in 82 bytes (1 switches on core 3)
+[pid: 7616|app: 0|req: 4/12] 192.168.2.141 () {42 vars in 1087 bytes} [Fri Mar 24 14:51:02 2017] GET / => generated 217 bytes in 2 msecs (HTTP/1.1 302) 3 headers in 124 bytes (1 switches on core 0)
+[pid: 7617|app: 0|req: 9/13] 192.168.2.141 () {42 vars in 1095 bytes} [Fri Mar 24 14:51:02 2017] GET /log/ => generated 11611 bytes in 191 msecs (HTTP/1.1 200) 2 headers in 82 bytes (1 switches on core 0)
+[pid: 7617|app: 0|req: 10/14] 192.168.2.141 () {42 vars in 1087 bytes} [Fri Mar 24 15:00:03 2017] GET / => generated 217 bytes in 2 msecs (HTTP/1.1 302) 3 headers in 124 bytes (1 switches on core 1)
+[pid: 7616|app: 0|req: 6/15] 192.168.2.141 () {40 vars in 611 bytes} [Fri Mar 24 15:00:41 2017] GET / => generated 3156 bytes in 3 msecs (HTTP/1.1 200) 3 headers in 263 bytes (1 switches on core 0)
+[pid: 7616|app: 0|req: 7/16] 192.168.2.141 () {40 vars in 544 bytes} [Fri Mar 24 15:00:41 2017] GET /favicon.ico => generated 233 bytes in 14 msecs (HTTP/1.1 404) 2 headers in 72 bytes (1 switches on core 1)
+[pid: 7617|app: 0|req: 12/17] 192.168.2.141 () {50 vars in 964 bytes} [Fri Mar 24 15:00:52 2017] POST / => generated 217 bytes in 253 msecs (HTTP/1.1 302) 4 headers in 603 bytes (1 switches on core 1)
+[pid: 7617|app: 0|req: 13/18] 192.168.2.141 () {46 vars in 1152 bytes} [Fri Mar 24 15:00:52 2017] GET /log/ => generated 11836 bytes in 49 msecs (HTTP/1.1 200) 3 headers in 489 bytes (1 switches on core 3)
+[pid: 7616|app: 0|req: 8/19] 192.168.2.141 () {40 vars in 544 bytes} [Fri Mar 24 15:00:52 2017] GET /favicon.ico => generated 233 bytes in 0 msecs (HTTP/1.1 404) 2 headers in 72 bytes (1 switches on core 3)
+SIGINT/SIGQUIT received...killing workers...
+worker 1 buried after 1 seconds
+worker 2 buried after 1 seconds
+goodbye to uWSGI.
+*** Starting uWSGI 2.0.14 (64bit) on [Fri Mar 24 15:02:47 2017] ***
+compiled with version: 4.8.4 on 10 March 2017 11:44:01
+os: Linux-3.13.0-32-generic #57-Ubuntu SMP Tue Jul 15 03:51:08 UTC 2014
+nodename: ubuntu-web
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 16
+current working directory: /root
+writing pidfile to /data/www/code//uwsgi.pid
+detected binary path: /usr/local/bin/uwsgi
+setgid() to 1003
+set additional group 33 (www-data)
+setuid() to 1003
+chdir() to /data/www/code/
+your processes number limit is 95816
+your memory page size is 4096 bytes
+detected max file descriptor number: 1000000
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:9090 fd 3
+Python version: 2.7.6 (default, Oct 26 2016, 20:33:43)  [GCC 4.8.4]
+Set PythonHome to /data/www/code/venv
+Python main interpreter initialized at 0xe8f0f0
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 311040 bytes (303 KB) for 8 cores
+*** Operational MODE: preforking+threaded ***
+added /data/www/code/ to pythonpath.
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 7669)
+spawned uWSGI worker 1 (pid: 7670, cores: 4)
+spawned uWSGI worker 2 (pid: 7671, cores: 4)
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0xe8f0f0 pid: 7670 (default app)
+mountpoint  already configured. skip.
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0xe8f0f0 pid: 7671 (default app)
+mountpoint  already configured. skip.
+SIGINT/SIGQUIT received...killing workers...
+worker 1 buried after 1 seconds
+worker 2 buried after 1 seconds
+goodbye to uWSGI.

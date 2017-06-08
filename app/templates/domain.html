@@ -33,11 +33,11 @@
                                             <td>{{ domain.domain }}</td>
                                             <td>{{ domain.c_version }}</td>
                                             <td>{{ domain.n_version }}</td>
-                                            <td id="{{ domain.domain }}">
-						<a title="查看|编辑" class="fa fa-edit fa-fw" href="/domain/edit/?d={{ domain.domain }}"></a>
-						<a title="部署" class="fa fa-upload fa-fw" href="javascript:void(0);" onclick="post('/domain/deploy/',{domain :'{{ domain.domain }}',action:0})"></a>
-						<a title="回滚" class="fa fa-arrow-left fa-fw" href="javascript:void(0);" onclick="rollback('{{ domain.domain }}')"></a>
-						<a title="删除" class="fa fa-trash-o fa-fw" href="javascript:void(0);" onclick="del('/domain/del/?d={{ domain.domain }}')"></a>
+                                            <td id="{{ domain.id }}">
+						<a title="查看|编辑" class="fa fa-edit fa-fw" href="/domain/edit/?d={{ domain.id }}"></a>
+						<a title="部署" class="fa fa-upload fa-fw" href="javascript:void(0);" onclick="post('/domain/deploy/',{id :'{{ domain.id }}',action:0})"></a>
+						<a title="回滚" class="fa fa-arrow-left fa-fw" href="javascript:void(0);" onclick="rollback('{{ domain.id }}')"></a>
+						<a title="删除" class="fa fa-trash-o fa-fw" href="javascript:void(0);" onclick="del('/domain/del/?d={{ domain.id }}')"></a>
 					    </td>
                                         </tr>
 				{% endfor %}
@@ -71,7 +71,7 @@
     <script src="/static/js/domain.js"></script>
 
 <script type="text/javascript">
-  setPage(document.getElementsByName('pageZone')[0],{{ count }},{{ page }});
+  setPage(document.getElementsByName('pageZone')[0], {{ pagination.pages }}, {{ pagination.page }});
 </script>
 
 {% endblock %}

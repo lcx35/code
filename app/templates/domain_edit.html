@@ -19,6 +19,11 @@
                                 <div class="col-lg-12">
                                     <form role="form" action="" method="POST" name="form">
 					 {{ form.hidden_tag() }}
+                                        <div class="form-group" style="display:none">
+                                            <label>ID</label>
+						<input name="id" class="form-control" id="id" type="text" placeholder="ID" value="{{ domain_dic.id }}">
+                                           <!-- <p class="help-block">Example block-level help text here.</p> -->
+                                        </div>
                                         <div class="form-group">
                                             <label>域名</label>
 						<input name="domain" class="form-control" id="domain" type="text" placeholder="domain" value="{{ domain_dic.domain }}">
@@ -36,11 +41,11 @@
                                             <label>生产环境目录</label>
 						<input name="directory" class="form-control" id="directory" type="text" placeholder="网站文件绝对路径" value="{{ domain_dic.directory }}">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" style="display:none">
                                             <label>当前版本</label>
 						<input name="c_version" class="form-control" id="c_version" type="text" placeholder="当前版本号" value="{{ domain_dic.c_version }}">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" style="display:none">
                                             <label>最新版本</label>
 						<input name="n_version" class="form-control" id="n_version" type="text" placeholder="最新版本号" value="{{ domain_dic.n_version }}">
                                         </div>

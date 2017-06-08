@@ -1,18 +1,25 @@
 #-*- coding:utf-8 -*-
-from app import app, lm
+from app import app, lm, db
 from flask import request, redirect, render_template, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
+from werkzeug.security import check_password_hash, generate_password_hash
 import subprocess, shlex
 #import subprocess32, shlex
-from .forms import UserForm, UseraddForm, DomainaddForm, DomaindeployForm
-from .models import User, Domain, Log
+from .forms import UserForm, UseraddForm, DomainaddForm, DomaineditForm, DomaindeployForm
+from .models_sql import User, Domain, Log
 import time
 
 
-def r_log(action, result):
-    username = current_user.username
-    _id = Log.save(username, action, result)
-    return _id
+def r_log(action, result, domain_id=0, f_version=0):
+    if current_user.is_authenticated:
+        user_id = int(current_user.id)
+    else:
+        user_id = 0
+    datetime = int(time.time())
+    log = Log(user_id=user_id, domain_id=domain_id, f_version=f_version, datetime=datetime, action=action, result=result)
+    db.session.add(log)
+    db.session.commit()
+
 
 def execute(cmd, cwd=None):
     child = subprocess.Popen(shlex.split(cmd), cwd=cwd, shell=False)
@@ -22,9 +29,8 @@ def execute(cmd, cwd=None):
     return returncode
 
 @lm.user_loader
-def load_user(username):
-    u = User(username)
-    return u
+def load_user(id):
+    return User.query.get(int(id))
 
 @app.route('/test/', methods=['GET', 'POST'])
 def test():
@@ -33,7 +39,15 @@ def test():
         file.save("app/static/upload/aa.png")
         return "aa"
     else:
-        return render_template('test.html')
+#        page = request.args.get('p')
+#        if page == None:
+#            page = 1
+#        else:
+#            page = int(page)
+#        pagination = User.query.paginate(page, 10, False)
+#        users = pagination.items
+#        return render_template('test.html', title='user', users=users, pagination=dir(pagination))
+        return render_template('test.html', auth=current_user.is_authenticated, user_id=current_user.get_id())
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -41,11 +55,10 @@ def login():
         return redirect(request.args.get("next") or url_for("log"))
     form = UserForm()
     if request.method == 'POST' and form.validate_on_submit():
-        user = User.find_one(form.username.data)
-        if user and User.validate_login(user['password'], form.password.data):
-        #if user and user['password'] == form.password.data:
-            user_obj = User(form.username.data)
-            login_user(user_obj)
+        user = User.query.filter_by(username=form.username.data).first()
+        if user != None and check_password_hash(user.password, form.password.data):
+        #if user and user.password == form.password.data:
+            login_user(user)
             flash("Logged in successfully!", category='success')
             r_log("login", 0)
             return redirect(request.args.get("next") or url_for("log"))
@@ -64,7 +77,7 @@ def logout():
 @app.route('/user/')
 @login_required
 def user():
-    if current_user.username != "admin":
+    if current_user.id != 1:
         flash("Permission denied", category='error')
         return redirect(request.args.get("next") or url_for("login"))
     page = request.args.get('p')
@@ -72,13 +85,14 @@ def user():
         page = 1
     else:
         page = int(page)
-    users, count = User.find(10, page)
-    return render_template('user.html', title='user', users=users, page=page, count=count)
+    pagination = User.query.paginate(page, 10, False)
+    users = pagination.items
+    return render_template('user.html', title='user', users=users, pagination=pagination)
 
 @app.route('/user/add/', methods=['GET', 'POST'])
 @login_required
 def user_add():
-    if current_user.username != "admin":
+    if current_user.id != 1:
         flash("Permission denied", category='error')
         r_log("user add deny", 1)
         return redirect(request.args.get("next") or url_for("login"))
@@ -88,13 +102,16 @@ def user_add():
             username = form.username.data
             password = form.password.data
             master = form.master.data
-            user = User(username)
-            if User.find_one(username):
+            user = User.query.filter_by(username=username).first()
+            if user != None:
                 flash("The user name is unavailable", category='error')
                 r_log("user add", 1)
                 return redirect(request.args.get("next") or url_for("user_add"))
             try:
-                user.save(username, master, password)
+                password_hash = generate_password_hash(password)
+                user = User(username=username, master=master, password=password_hash)
+                db.session.add(user)
+                db.session.commit()
                 flash("add user successfully!", category='success')
                 r_log("user add", 0)
                 return redirect(request.args.get("next") or url_for("user"))
@@ -109,13 +126,18 @@ def user_add():
 @app.route('/user/del/', methods=['GET', 'POST'])
 @login_required
 def user_del():
-    if current_user.username != "admin":
+    if current_user.id != 1:
         flash("Permission denied", category='error')
         r_log("user del deny", 1)
         return redirect(request.args.get("next") or url_for("login"))
-    name = request.args.get('u')
+    id = int(request.args.get('u'))
+    if id == 1:
+        flash(u"不可删除", category='error')
+        return redirect(request.args.get("next") or url_for("user"))
     try:
-        User.remove(name)
+        user = User.query.filter_by(id=id).first()
+        db.session.delete(user)
+        db.session.commit()
         flash("user delete successfully!", category='success')
         r_log("user del", 0)
         return redirect(request.args.get("next") or url_for("user"))
@@ -127,25 +149,32 @@ def user_del():
 @app.route('/user/settings/', methods=['GET', 'POST'])
 @login_required
 def user_settings():
-    form = UserForm()
-    name = request.args.get('u')
-    if name == None:
+    form = UsersetForm()
+    id = request.args.get('u')
+    if id == None:
+        id = 0
         name = ""
         master = ""
     else:
-        master = User.find_one(name)['master']
+        user = User.query.filter_by(id=id).first()
+        name = user.username
+        master = user.master
     if request.method == 'POST':
         if form.validate_on_submit():
-            username = form.username.data
+            id = int(form.id.data)
             master = form.master.data
             password = form.password.data
-            user = User(username)
-            if not User.find_one(username):
+            user = User.query.filter_by(id=id).first()
+            if user == None:
                 flash("User not exist", category='error')
                 r_log("user setting", 1)
                 return redirect(request.args.get("next") or url_for("user"))
             try:
-                user.update(username, password)
+                password_hash = generate_password_hash(password)
+                user.master = master
+                user.password = password_hash
+                db.session.add(user)
+                db.session.commit()
                 r_log("user setting", 0)
                 flash("successfully!", category='success')
                 return redirect(request.args.get("next") or url_for("user"))
@@ -155,7 +184,7 @@ def user_settings():
         else:
             flash(u"不能为空", category='error')
             r_log("user setting", 1)
-    return render_template('user_settings.html', title='settings', form=form, name=name, master=master)
+    return render_template('user_settings.html', title='settings', form=form, id=id, name=name, master=master)
 
 @app.route('/log/', methods=['GET', 'POST'])
 @login_required
@@ -165,8 +194,9 @@ def log():
         page = 1
     else:
         page = int(page)
-    logs, count = Log.find(10, page)
-    return render_template('log.html', title='log', logs=logs, page=page, count=count)
+    pagination = Log.query.paginate(page, 10, False)
+    logs = pagination.items
+    return render_template('log.html', title='log', pagination=pagination, logs=logs)
 
 @app.route('/domain/', methods=['GET', 'POST'])
 @login_required
@@ -176,13 +206,14 @@ def domain():
         page = 1
     else:
         page = int(page)
-    domains, count = Domain.find(10, page)
-    return render_template('domain.html', title=u'域名', domains=domains, count=count, page=page)
+    pagination = Domain.query.paginate(page, 10, False)
+    domains = pagination.items
+    return render_template('domain.html', title=u'域名', domains=domains, pagination=pagination)
 
 @app.route('/domain/add/', methods=['GET', 'POST'])
 @login_required
 def domain_add():
-    if current_user.username != "admin":
+    if current_user.id != 1:
         flash("Permission denied", category='error')
         r_log("domain add deny", 1)
         return redirect(request.args.get("next") or url_for("login"))
@@ -197,13 +228,15 @@ def domain_add():
             n_version = form.n_version.data
             user = form.user.data
             password = form.password.data
-            domain_obj = Domain(domain)
-            if Domain.find_one(domain):
+            domain_obj = Domain.query.filter_by(domain=domain).first()
+            if domain_obj != None:
                 flash("The domain is repetitive", category='error')
                 r_log("domain add", 1)
                 return redirect(request.args.get("next") or url_for("domain_add"))
             try:
-                domain_obj.save(domain, ip, test_directory, directory, c_version, n_version, user, password)
+                domain = Domain(domain=domain, ip=ip, test_directory=test_directory, directory=directory, c_version=c_version, n_version=n_version, user=user, password=password)
+                db.session.add(domain)
+                db.session.commit()
                 flash("add domian successfully!", category='success')
                 r_log("domain add", 0)
                 return redirect(request.args.get("next") or url_for("domain"))
@@ -218,34 +251,46 @@ def domain_add():
 @app.route('/domain/edit/', methods=['GET', 'POST'])
 @login_required
 def domain_edit():
-    if current_user.username != "admin":
+    if current_user.id != 1:
         flash("Permission denied", category='error')
         r_log("domain edit deny", 1)
         return redirect(request.args.get("next") or url_for("login"))
-    form = DomainaddForm()
-    domain = request.args.get('d')
-    if domain == None:
+    form = DomaineditForm()
+    id = request.args.get('d')
+    if id == None:
+        id = 0
         domain_dic = {}
     else:
-        domain_dic = Domain.find_one(domain)
+        domain_dic = Domain.query.filter_by(id=id).first()
     if request.method == 'POST':
         if form.validate_on_submit():
-            domain = form.domain.data
+            id = form.domain.id
+            #domain = form.domain.data
             ip = form.ip.data
             test_directory = form.test_directory.data
             directory = form.directory.data
-            c_version = form.c_version.data
-            n_version = form.n_version.data
+            #c_version = form.c_version.data
+            #n_version = form.n_version.data
             user = form.user.data
             password = form.password.data
-            domain_obj = Domain(domain)
+            domain_obj = Domain.query.filter_by(id=id).first()
+            if domain_obj == None:
+                flash("Domain not exist", category='error')
+                r_log("Domain edit", 1)
+                return redirect(request.args.get("next") or url_for("domain"))
             try:
-                domain_obj.update(domain, ip, test_directory, directory, c_version, n_version, user, password)
-                flash("add domian successfully!", category='success')
+                domain_obj.ip = ip
+                domain_obj.test_directory = test_directory
+                domain_obj.directory = directory
+                domain_obj.user = user
+                domain_obj.password = password
+                db.session.add(domain_obj)
+                db.session.commit()
+                flash("edit domian successfully!", category='success')
                 r_log("domain edit", 0)
                 return redirect(request.args.get("next") or url_for("domain"))
             except:
-                flash("domain add failed", category='error')
+                flash("domain edit failed", category='error')
                 r_log("domain edit", 1)
         else:
             flash(u"不能为空", category='error')
@@ -255,13 +300,15 @@ def domain_edit():
 @app.route('/domain/del/', methods=['GET', 'POST'])
 @login_required
 def domain_del():
-    if current_user.username != "admin":
+    if current_user.id != 1:
         flash("Permission denied", category='error')
         r_log("domain del deny", 0)
         return redirect(request.args.get("next") or url_for("login"))
-    domain = request.args.get('d')
+    id = request.args.get('d')
     try:
-        Domain.remove(domain)
+        domain = Domain.query.filter_by(id=id).first()
+        db.session.delete(domain)
+        db.session.commit()
         flash("user delete successfully!", category='success')
         r_log("domain del", 0)
         return redirect(request.args.get("next") or url_for("domain"))
@@ -274,16 +321,16 @@ def domain_del():
 @app.route('/domain/deploy/', methods=['POST'])
 @login_required
 def domain_deploy():
-    domain = request.form.get("domain")
+    id = request.form.get("domain")
     action = int(request.form.get("action"))
-    domain_dic = Domain.find_one(domain)
-    c_version = int(domain_dic['c_version'])
-    n_version = int(domain_dic['n_version'])
-    directory = domain_dic['directory']
-    test_directory = domain_dic['test_directory']
-    ip = domain_dic['ip']
-    user = domain_dic['user']
-    password = domain_dic['password']
+    domain = Domain.query.filter_by(id=id).first()
+    c_version = int(domain.c_version)
+    n_version = int(domain.n_version)
+    directory = domain.directory
+    test_directory = domain.test_directory
+    ip = domain.ip
+    user = domain.user
+    password = domain.password
 
     #回滚
     if action == 1:
@@ -291,12 +338,14 @@ def domain_deploy():
         if version >= n_version:
             r_log("rollback", 1)
             return u'版本号错误'
-        cmd1 = "git checkout " + domain + "-" + str(version)
+        cmd1 = "git checkout " + str(id) + "-" + str(version)
         cmd2 = "bash app/scripts/auto_rsync.sh " + test_directory + " " + directory + " " + ip + " " + user + " " + password
         returncode1 = execute(cmd1, test_directory)
         returncode2 = execute(cmd2)
         if returncode1 == 0 and returncode2 == 0:
-            Domain.update(domain, ip, test_directory, directory, version, n_version, user, password)
+            domain.c_version = version
+            db.session.add(domain)
+            db.session.commit()
             flash("rollback successfully!", category='success')
             r_log("rollback", 0)
             return u"成功"
@@ -308,14 +357,17 @@ def domain_deploy():
     elif action == 0:
         returncode1 = 0
         if c_version < n_version:
-            cmd1 = "git checkout " + domain + "-" + str(n_version)
+            cmd1 = "git checkout " + str(id) + "-" + str(n_version)
             returncode1 = execute(cmd1, test_directory)
         version = str(n_version + 1)
         cmd2 = "bash app/scripts/auto_rsync.sh " + test_directory + " " + directory + " " + ip + " " + user + " " + password
         returncode2 = execute(cmd2)
         if returncode1 == 0 and returncode2 == 0:
-            Domain.update(domain, ip, test_directory, directory, version, version, user, password)
-            tag_cmd = "git tag " + domain + "-" + version
+            domain.c_version = version
+            domain.n_version = version
+            db.session.add(domain)
+            db.session.commit()
+            tag_cmd = "git tag " + str(id) + "-" + version
             tag_code = execute(tag_cmd, test_directory)
             flash("deploy successfully!", category='success')
             r_log("deploy", 0)

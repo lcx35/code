@@ -4,8 +4,8 @@ var obj=document.getElementById(id);
 obj.setAttribute('style','display:none;');
 var parentNode=obj.parentNode;
 var td=document.createElement("td");
-td.setAttribute("id", id+"edit");
-td.innerHTML='<input id="version"></input><a title="保存" class="fa fa-save fa-fw" herf="javascript:void(0);" onclick="post(\'/domain/deploy/\',{domain :\''+id+'\' ,action:1})"></a><a title="取消" class="fa fa-reply-all fa-fw" herf="javascript:void(0);" onclick="cancel(\''+id+'\')"></a>';
+td.setAttribute("id", "edit"+id);
+td.innerHTML='<input id="version"></input><a title="保存" class="fa fa-save fa-fw" herf="javascript:void(0);" onclick="post(\'/domain/deploy/\',{id :\''+id+'\' ,action:1})"></a><a title="取消" class="fa fa-reply-all fa-fw" herf="javascript:void(0);" onclick="cancel(\''+id+'\')"></a>';
 parentNode.appendChild(td);
 }
 
@@ -14,13 +14,13 @@ function cancel(id)
 var obj=document.getElementById(id);
 obj.setAttribute('style','');
 var parentNode=obj.parentNode;
-var td=document.getElementById(id+"edit");
+var td=document.getElementById("edit"+id);
 parentNode.removeChild(td);
 }
 
 function post(url, data){
-    var resultid = data["domain"]+"result";
-    var obj=document.getElementById(data["domain"]);
+    var resultid = "result"+data["id"];
+    var obj=document.getElementById(data["id"]);
     var a=document.createElement("a");
     a.setAttribute("id", resultid)
     obj.appendChild(a);
@@ -36,7 +36,7 @@ function post(url, data){
 
     if(data["action"]==1) {
         var version = document.getElementById("version").value;
-        cancel(data["domain"])
+        cancel(data["id"])
         b = b+"&version="+version;
     }
 

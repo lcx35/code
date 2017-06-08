@@ -22,6 +22,8 @@
                                         <tr>
                                             <th>时间</th>
                                             <th>用户名</th>
+                                            <th>域名</th>
+                                            <th>版本</th>
                                             <th>操作</th>
                                             <th>结果</th>
                                         </tr>
@@ -30,7 +32,9 @@
 				{% for log in logs %}
                                         <tr class="odd gradeX">
                                             <td>{{ log.datetime|datetimeformat }}</td>
-                                            <td>{{ log.username }}</td>
+                                            <td>{{ log.user_id }}</td>
+                                            <td>{{ log.domain_id }}</td>
+                                            <td>{{ log.f_version }}</td>
                                             <td>{{ log.action }}</td>
                                             <td>{{ log.result }}</td>
                                         </tr>
@@ -62,6 +66,6 @@
 
 {% block js %}
 <script type="text/javascript">
-  setPage(document.getElementsByName('pageZone')[0],{{ count }},{{ page }});
+  setPage(document.getElementsByName('pageZone')[0], {{ pagination.pages }}, {{ pagination.page }});
 </script>
 {% endblock %}

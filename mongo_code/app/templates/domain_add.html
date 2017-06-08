@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">域名</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            添加域名
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <form role="form" action="" method="POST" name="form">
+					 {{ form.hidden_tag() }}
+                                        <div class="form-group">
+                                            <label>域名</label>
+						{{ form.domain(class="form-control", placeholder="domain") }}
+                                           <!-- <p class="help-block">Example block-level help text here.</p> -->
+                                        </div>
+                                        <div class="form-group">
+                                            <label>IP</label>
+						{{ form.ip(class="form-control", placeholder="IP") }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>测试环境目录</label>
+						{{ form.test_directory(class="form-control", placeholder="测试网站目录") }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>生产环境目录</label>
+						{{ form.directory(class="form-control", placeholder="生产环境网站目录") }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>当前版本</label>
+						{{ form.c_version(class="form-control", placeholder="当前版本号") }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>最新版本</label>
+						{{ form.n_version(class="form-control", placeholder="最新版本号") }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>用户</label>
+						{{ form.user(class="form-control", placeholder="服务器用户") }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>密码</label>
+						{{ form.password(class="form-control", placeholder="服务器密码", type="password") }}
+                                        </div>
+ 
+                                        <button type="submit" class="btn btn-default">提交</button>
+                                        <button type="reset" class="btn btn-default">重置</button>
+                                    </form>
+                                </div>
+                                <!-- /.col-lg-6 (nested) -->
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+
+{% endblock %}

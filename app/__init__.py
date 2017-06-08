@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from .filters import datetimeformat
 
@@ -11,23 +12,31 @@ app.config['TESTING'] = True
 app.config['WTF_CSRF_ENABLED'] = True
 app.config['SECRET_KEY'] = 'code admin'
 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:XIAOzi2308842@192.168.2.55/codeadmin'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 #app.config['DATABASE_URI'] = 'mongodb://codeadmin:codeadmin@123.206.14.167/?authSource=admin'
-app.config['DBHOST'] = '123.206.14.167'
-app.config['DBPORT'] = 27017
-app.config['DBUSER'] = 'codeadmin'
-app.config['DBPASS'] = 'codeadmin'
-app.config['DBAUTH_SOURCE'] = 'admin'
-app.config['DBNAME'] = 'codeadmin'
-app.config['USER_COLLECTION'] = 'user'
-app.config['DOMAIN_COLLECTION'] = 'domain'
-app.config['LOG_COLLECTION'] = 'log'
+#app.config['DBHOST'] = '123.206.14.167'
+#app.config['DBPORT'] = 27017
+#app.config['DBUSER'] = 'codeadmin'
+#app.config['DBPASS'] = 'codeadmin'
+#app.config['DBAUTH_SOURCE'] = 'admin'
+#app.config['DBNAME'] = 'codeadmin'
+#app.config['USER_COLLECTION'] = 'user'
+#app.config['DOMAIN_COLLECTION'] = 'domain'
+#app.config['LOG_COLLECTION'] = 'log'
+
+db = SQLAlchemy(app)
 
 lm = LoginManager()
 lm.init_app(app)
 lm.login_view = 'login'
 
+
 env = app.jinja_env
 env.filters['datetimeformat'] = datetimeformat
+#env.filters['username'] = username
+
 
 #@app.context_processor
 #def db(table):
@@ -37,4 +46,5 @@ env.filters['datetimeformat'] = datetimeformat
 #    coll = db[table]
 #    return coll
 
+#from app import views
 from app import views

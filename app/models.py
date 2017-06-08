@@ -3,6 +3,7 @@ from pymongo import MongoClient
 from werkzeug.security import check_password_hash, generate_password_hash
 import time
 
+
 #db = MongoClient(app.config['DATABASE_URI'], connect=False).codeadmin
 client = MongoClient(app.config['DBHOST'], app.config['DBPORT'], connect=False)
 #client = MongoClient(app.config['DBHOST'], app.config['DBPORT'])
@@ -144,3 +145,12 @@ class Log():
 	else:
 		count = count // number + 1
         return logs, count
+
+
+#from flask.ext.sqlalchemy import SQLAlchemy
+
+#app = Flask(__name__)
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+#db = SQLAlchemy(app)
+
+
